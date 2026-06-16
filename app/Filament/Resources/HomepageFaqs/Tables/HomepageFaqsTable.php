@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Filament\Resources\HomepageFaqs\Tables;
+
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+
+class HomepageFaqsTable
+{
+    public static function configure(Table $table): Table
+    {
+        return $table
+            ->columns([
+
+                TextColumn::make('university.name')
+                    ->label('University')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('question')
+                    ->searchable()
+                    ->limit(60),
+
+                TextColumn::make('sort_order')
+                    ->sortable(),
+
+                IconColumn::make('status')
+                    ->boolean(),
+
+                TextColumn::make('updated_at')
+                    ->label('Last Updated')
+                    ->dateTime('d M Y h:i A')
+                    ->sortable(),
+
+            ])
+            ->filters([
+                //
+            ])
+            ->recordActions([
+                EditAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+}
+ 
