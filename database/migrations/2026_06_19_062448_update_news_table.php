@@ -10,8 +10,6 @@ return new class extends Migration
     {
         Schema::table('news', function (Blueprint $table) {
 
-            // Short description
-            $table->text('excerpt')->nullable()->after('slug');
 
             // PDF upload
             $table->string('pdf_file')->nullable()->after('content');
@@ -22,7 +20,6 @@ return new class extends Migration
     {
         Schema::table('news', function (Blueprint $table) {
 
-            $table->dropColumn('excerpt');
             $table->dropColumn('pdf_file');
         });
     }
