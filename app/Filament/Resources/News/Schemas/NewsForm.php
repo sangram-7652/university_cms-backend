@@ -30,7 +30,7 @@ class NewsForm
                     ->maxLength(255)
                     ->live(onBlur: true)
                     ->afterStateUpdated(
-                        fn ($state, $set) =>
+                        fn($state, $set) =>
                         $set('slug', Str::slug($state))
                     ),
 
@@ -43,20 +43,34 @@ class NewsForm
                     ->maxLength(500),
 
                 RichEditor::make('content')
-                    ->required()
-                    ->columnSpanFull(),
+                    ->nullable()
+                    ->columnSpanFull()
+                    ->helperText('Optional. Add news content if required.'),
+
+                FileUpload::make('pdf_file')
+                    ->label('PDF File')
+                    ->directory('news-pdfs')
+                    ->acceptedFileTypes([
+                        'application/pdf'
+                    ])
+                    ->downloadable()
+                    ->nullable()
+                    ->helperText('Optional. Upload PDF if required.'),
 
                 DatePicker::make('publish_date')
                     ->required()
                     ->default(now()),
 
                 FileUpload::make('featured_image')
+                    ->label('featured_image')
                     ->image()
                     ->directory('news')
-                    ->imageEditor(),
+                    ->imageEditor()
+                    ->nullable(),
 
                 Toggle::make('status')
                     ->default(true),
+
             ]);
     }
 }

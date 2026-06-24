@@ -31,14 +31,44 @@ class University extends Model
         'is_active'
     ];
 
-    public function homepage()
-    {
-        return $this->hasMany(HomePageHero::class);
-    }
+    // public function homepage()
+    // {
+    //     return $this->hasMany(HomePageHero::class);
+    // }
 
-    public function news()
+    // public function news()
+    // {
+    //     return $this->hasMany(News::class);
+    // }
+
+    // public function about()
+    // {
+    //     return $this->hasOne(HomepageAbout::class);
+    // }
+
+    // public function eligibility()
+    // {
+    //     return $this->hasOne(HomepageEligibility::class);
+    // }
+
+    // public function whyChooseUs()
+    // {
+    //     return $this->hasOne(HomepageWhyChooseUs::class);
+    // }
+
+    // public function faqs()
+    // {
+    //     return $this->hasMany(HomepageFaq::class);
+    // }
+    //  public function footerCta()
+    // {
+    //     return $this->hasOne(FooterCta::class);
+    // }
+
+
+    public function hero()
     {
-        return $this->hasMany(News::class);
+        return $this->hasOne(HomePageHero::class);
     }
 
     public function about()
@@ -46,14 +76,14 @@ class University extends Model
         return $this->hasOne(HomepageAbout::class);
     }
 
-    public function eligibility()
+    public function eligibilities()
     {
-        return $this->hasOne(HomepageEligibility::class);
+        return $this->hasMany(HomepageEligibility::class);
     }
 
     public function whyChooseUs()
     {
-        return $this->hasOne(HomepageWhyChooseUs::class);
+        return $this->hasMany(HomepageWhyChooseUs::class);
     }
 
     public function faqs()
@@ -65,6 +95,13 @@ class University extends Model
     {
         return $this->hasOne(FooterCta::class);
     }
+
+    public function news()
+    {
+        return $this->hasMany(News::class);
+    }
+
+
 
     public function courses()
     {

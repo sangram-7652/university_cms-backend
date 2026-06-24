@@ -28,7 +28,12 @@ class NewsTable
                     ->limit(50),
 
                 ImageColumn::make('featured_image')
-                    ->label('Image'),
+                    ->label('Image')
+                    ->circular(),
+
+                IconColumn::make('pdf_file')
+                    ->label('PDF')
+                    ->boolean(fn($record) => filled($record->pdf_file)),
 
                 TextColumn::make('publish_date')
                     ->date('d M Y')
@@ -38,19 +43,23 @@ class NewsTable
                     ->boolean(),
 
                 TextColumn::make('created_at')
+                    ->label('Created')
                     ->dateTime('d M Y')
                     ->sortable(),
 
             ])
+
             ->filters([
 
                 SelectFilter::make('university')
                     ->relationship('university', 'name'),
 
             ])
+
             ->recordActions([
                 EditAction::make(),
             ])
+
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

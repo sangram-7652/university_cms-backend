@@ -13,7 +13,7 @@ class SeoMeta extends Model
         'meta_title',
         'meta_description',
         'meta_keywords',
-
+    
         'canonical_url',
 
         'og_title',
