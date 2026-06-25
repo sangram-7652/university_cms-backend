@@ -4,18 +4,21 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Specialization\SpecializationResource;
-use App\Models\Specialization;
 use App\Models\Course;
-use Illuminate\Http\Request;
-
-
+use App\Models\Specialization;
 
 class SpecializationController extends Controller
 {
     public function index()
     {
+        $university = university();
 
         $specializations = Specialization::query()
+
+            ->where(
+                'university_id',
+                $university->id
+            )
 
             ->latest()
 
@@ -35,39 +38,86 @@ class SpecializationController extends Controller
         ]);
     }
 
+
     public function show($slug)
     {
+        $university = university();
 
-        $specialization = Specialization::where(
 
-            'slug',
+        $specialization = Specialization::query()
 
-            $slug
+            ->where(
 
-        )->firstOrFail();
+                'slug',
 
+                $slug
+
+            )
+
+            ->where(
+
+                'university_id',
+
+                $university->id
+
+            )
+
+            ->firstOrFail();
 
 
         return response()->json([
 
-
             'success' => true,
-
 
             'data' => new SpecializationResource(
 
                 $specialization
+
             )
 
         ]);
     }
 
+
     public function byCourse($slug)
     {
-        $course = Course::where(
-            'slug',
-            $slug
-        )->firstOrFail();
+        $university = university();
+
+
+        $course = Course::query()
+
+            ->where(
+
+                'slug',
+
+                $slug
+
+            )
+
+            ->where(
+
+                'university_id',
+
+                $university->id
+
+            )
+
+            ->firstOrFail();
+
+
+        $specializations = $course->specializations()
+
+            ->where(
+
+                'university_id',
+
+                $university->id
+
+            )
+
+            ->latest()
+
+            ->get();
 
 
         return response()->json([
@@ -76,7 +126,11 @@ class SpecializationController extends Controller
 
             'course' => $course->name,
 
-            'data' => $course->specializations
+            'data' => SpecializationResource::collection(
+
+                $specializations
+
+            )
 
         ]);
     }

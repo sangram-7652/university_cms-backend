@@ -11,10 +11,40 @@ class LeadController extends Controller
 {
     public function store(StoreLeadRequest $request): JsonResponse
     {
-        // Prevent duplicate submissions for the same phone on the same day
-        $exists = Lead::where('phone', $request->phone)
-            ->whereDate('created_at', today())
+        $university = university();
+
+        // Prevent duplicate submissions for same phone
+        // on same university on same day
+
+        $exists = Lead::query()
+
+            ->where(
+
+                'phone',
+
+                $request->phone
+
+            )
+
+            ->where(
+
+                'university_id',
+
+                $university->id
+
+            )
+
+            ->whereDate(
+
+                'created_at',
+
+                today()
+
+            )
+
             ->exists();
+
+
 
         if ($exists) {
 
@@ -28,15 +58,19 @@ class LeadController extends Controller
         }
 
 
+
         $lead = Lead::create([
 
             ...$request->validated(),
+
+            'university_id' => $university->id,
 
             'status' => 'new',
 
             'ip_address' => $request->ip(),
 
         ]);
+
 
 
         return response()->json([
@@ -50,6 +84,8 @@ class LeadController extends Controller
                 'id' => $lead->id,
 
                 'name' => $lead->name,
+
+                'email' => $lead->email,
 
                 'phone' => $lead->phone,
 

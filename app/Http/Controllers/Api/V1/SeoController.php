@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\SeoSetting;
-use App\Models\SchemaTemplate;
-use App\Models\SitemapSetting;
-use App\Models\RobotsSetting;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\Seo\SeoSettingResource;
-use App\Http\Resources\Api\Seo\SchemaResource;
-use App\Http\Resources\Api\Seo\SitemapResource;
 use App\Http\Resources\Api\Seo\RobotsResource;
+use App\Http\Resources\Api\Seo\SchemaResource;
+use App\Http\Resources\Api\Seo\SeoSettingResource;
+use App\Http\Resources\Api\Seo\SitemapResource;
+use App\Models\RobotsSetting;
+use App\Models\SchemaTemplate;
+use App\Models\SeoSetting;
+use App\Models\SitemapSetting;
 
 class SeoController extends Controller
 {
@@ -20,14 +20,34 @@ class SeoController extends Controller
      */
     public function global()
     {
-        $seo = SeoSetting::first();
+        $seo = SeoSetting::query()
+
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            )
+
+            ->first();
+
 
         return response()->json([
+
             'success' => true,
+
             'message' => 'SEO settings fetched successfully',
-            'data' => new SeoSettingResource($seo),
+
+            'data' => $seo
+
+                ? new SeoSettingResource($seo)
+
+                : null,
+
         ]);
     }
+
 
 
     /**
@@ -35,17 +55,45 @@ class SeoController extends Controller
      */
     public function schema()
     {
-        $schemas = SchemaTemplate::where(
-            'is_active',
-            true
-        )->get();
+
+        $schemas = SchemaTemplate::query()
+
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            )
+
+            ->where(
+
+                'is_active',
+
+                true
+
+            )
+
+            ->get();
+
+
 
         return response()->json([
+
             'success' => true,
+
             'message' => 'Schema templates fetched successfully',
-            'data' => SchemaResource::collection($schemas),
+
+            'data' => SchemaResource::collection(
+
+                $schemas
+
+            ),
+
         ]);
     }
+
+
 
 
     /**
@@ -53,14 +101,41 @@ class SeoController extends Controller
      */
     public function sitemap()
     {
-        $sitemap = SitemapSetting::first();
+
+        $sitemap = SitemapSetting::query()
+
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            )
+
+            ->first();
+
+
 
         return response()->json([
+
             'success' => true,
+
             'message' => 'Sitemap settings fetched successfully',
-            'data' => new SitemapResource($sitemap),
+
+            'data' => $sitemap
+
+                ? new SitemapResource(
+
+                    $sitemap
+
+                )
+
+                : null,
+
         ]);
     }
+
+
 
 
     /**
@@ -68,12 +143,37 @@ class SeoController extends Controller
      */
     public function robots()
     {
-        $robots = RobotsSetting::first();
+
+        $robots = RobotsSetting::query()
+
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            )
+
+            ->first();
+
+
 
         return response()->json([
+
             'success' => true,
+
             'message' => 'Robots settings fetched successfully',
-            'data' => new RobotsResource($robots),
+
+            'data' => $robots
+
+                ? new RobotsResource(
+
+                    $robots
+
+                )
+
+                : null,
+
         ]);
     }
 }

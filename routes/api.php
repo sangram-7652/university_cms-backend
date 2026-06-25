@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\V1\SeoController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
+
     Route::get('/test', function () {
         return response()->json([
             'success' => true,
@@ -26,98 +27,117 @@ Route::prefix('v1')->group(function () {
         ]);
     });
 
-    Route::get('/home', [HomeController::class, 'index']);
+
     Route::get('/universities', [UniversityController::class, 'index']);
     Route::get('/universities/{slug}', [UniversityController::class, 'show']);
-    Route::get('/courses', [CourseController::class, 'index']);
-    Route::get(
-        '/courses/{slug}',
-        [CourseController::class, 'show']
-    );
-    Route::get(
-        '/specializations',
-        [SpecializationController::class, 'index']
-    );
-    Route::get(
-        '/specializations/{slug}',
-        [SpecializationController::class, 'show']
-    );
-    Route::get(
-        '/courses/{slug}/specializations',
-        [SpecializationController::class, 'byCourse']
-    );
 
-    Route::get(
-        '/fees',
-        [FeeController::class, 'index']
-    );
+    Route::middleware('university')->group(function () {
+        Route::get('/tenant-check', function () {
 
-    Route::get(
-        '/fees/{id}',
-        [FeeController::class, 'show']
-    );
+            return response()->json([
 
-    Route::get(
-        '/courses/{slug}/fees',
-        [FeeController::class, 'byCourse']
-    );
+                'helper_exists' => function_exists('university'),
 
-    Route::get(
-        '/specializations/{slug}/fees',
-        [FeeController::class, 'bySpecialization']
-    );
+                'bound' => app()->bound('currentUniversity'),
 
-    Route::get(
-        '/curricula',
-        [CurriculumController::class, 'index']
-    );
+                'current' => app()->bound('currentUniversity')
+                    ? app('currentUniversity')
+                    : null,
 
-    Route::get(
-        '/curricula/{slug}',
-        [CurriculumController::class, 'show']
-    );
+            ]);
+        });
 
-    Route::get(
-        'curricula/{curriculum}/semesters',
-        [SemesterController::class, 'index']
-    );
+        Route::get('/home', [HomeController::class, 'index']);
+        Route::get('/courses', [CourseController::class, 'index']);
+        Route::get(
+            '/courses/{slug}',
+            [CourseController::class, 'show']
+        );
+        Route::get(
+            '/specializations',
+            [SpecializationController::class, 'index']
+        );
+        Route::get(
+            '/specializations/{slug}',
+            [SpecializationController::class, 'show']
+        );
+        Route::get(
+            '/courses/{slug}/specializations',
+            [SpecializationController::class, 'byCourse']
+        );
 
-    Route::get(
-        'semesters/{semester}/subjects',
-        [SubjectController::class, 'index']
-    );
+        Route::get(
+            '/fees',
+            [FeeController::class, 'index']
+        );
 
-    Route::get(
-        '/courses/{course}/faqs',
-        [FaqController::class, 'courseFaqs']
-    );
+        Route::get(
+            '/fees/{id}',
+            [FeeController::class, 'show']
+        );
 
-    Route::get(
-        '/specializations/{specialization}/faqs',
-        [FaqController::class, 'specializationFaqs']
-    );
+        Route::get(
+            '/courses/{slug}/fees',
+            [FeeController::class, 'byCourse']
+        );
 
-    Route::get('/blogs', [BlogController::class, 'index']);
+        Route::get(
+            '/specializations/{slug}/fees',
+            [FeeController::class, 'bySpecialization']
+        );
 
-    Route::get('/blogs/{slug}', [BlogController::class, 'show']);
+        Route::get(
+            '/curricula',
+            [CurriculumController::class, 'index']
+        );
 
-    Route::get(
-        '/blogs/{blog}/faqs',
-        [BlogFaqController::class, 'index']
+        Route::get(
+            '/curricula/{slug}',
+            [CurriculumController::class, 'show']
+        );
 
-    );
+        Route::get(
+            'curricula/{curriculum}/semesters',
+            [SemesterController::class, 'index']
+        );
 
-    Route::post('/leads', [LeadController::class, 'store']);
+        Route::get(
+            'semesters/{semester}/subjects',
+            [SubjectController::class, 'index']
+        );
+
+        Route::get(
+            '/courses/{course}/faqs',
+            [FaqController::class, 'courseFaqs']
+        );
+
+        Route::get(
+            '/specializations/{specialization}/faqs',
+            [FaqController::class, 'specializationFaqs']
+        );
+
+        Route::get('/blogs', [BlogController::class, 'index']);
+
+        Route::get('/blogs/{slug}', [BlogController::class, 'show']);
+
+        Route::get(
+            '/blogs/{blog}/faqs',
+            [BlogFaqController::class, 'index']
+
+        );
+
+        Route::post('/leads', [LeadController::class, 'store']);
 
 
-    Route::prefix('seo')->group(function () {
+        Route::prefix('seo')->group(function () {
 
-        Route::get('/global', [SeoController::class, 'global']);
+            Route::get('/global', [SeoController::class, 'global']);
 
-        Route::get('/schema', [SeoController::class, 'schema']);
+            Route::get('/schema', [SeoController::class, 'schema']);
 
-        Route::get('/sitemap', [SeoController::class, 'sitemap']);
+            Route::get('/sitemap', [SeoController::class, 'sitemap']);
 
-        Route::get('/robots', [SeoController::class, 'robots']);
+            Route::get('/robots', [SeoController::class, 'robots']);
+        });
     });
 });

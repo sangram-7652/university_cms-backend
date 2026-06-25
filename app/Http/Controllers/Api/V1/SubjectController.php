@@ -8,17 +8,62 @@ use App\Models\Semester;
 
 class SubjectController extends Controller
 {
-    public function index(Semester $semester)
+    public function index($id)
     {
+        $semester = Semester::query()
+
+            ->where(
+
+                'id',
+
+                $id
+
+            )
+
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            )
+
+            ->firstOrFail();
+
+
+
         $subjects = $semester->subjects()
-            ->where('is_active', true)
-            ->orderBy('display_order')
+
+            ->where(
+
+                'is_active',
+
+                true
+
+            )
+
+            ->orderBy(
+
+                'display_order'
+
+            )
+
             ->get();
 
+
+
         return response()->json([
+
             'success' => true,
+
             'message' => 'Subjects fetched successfully',
-            'data' => SubjectResource::collection($subjects)
+
+            'data' => SubjectResource::collection(
+
+                $subjects
+
+            )
+
         ]);
     }
 }

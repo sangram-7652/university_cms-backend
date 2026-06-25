@@ -7,16 +7,24 @@ use App\Http\Resources\Api\Fee\FeeStructureResource;
 use App\Models\Course;
 use App\Models\FeeStructure;
 use App\Models\Specialization;
-use Illuminate\Http\Request;
-
-
 
 class FeeController extends Controller
 {
     public function index()
     {
 
-        $fees = FeeStructure::latest()
+        $fees = FeeStructure::query()
+
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            )
+
+            ->latest()
+
             ->paginate(10);
 
 
@@ -33,10 +41,30 @@ class FeeController extends Controller
         ]);
     }
 
+
     public function show($id)
     {
 
-        $fee = FeeStructure::findOrFail($id);
+        $fee = FeeStructure::query()
+
+            ->where(
+
+                'id',
+
+                $id
+
+            )
+
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            )
+
+            ->firstOrFail();
+
 
 
         return response()->json([
@@ -52,56 +80,88 @@ class FeeController extends Controller
         ]);
     }
 
+
     public function byCourse($slug)
     {
 
+        $course = Course::query()
 
-        $course = Course::where(
+            ->with('feeStructures')
 
-            'slug',
+            ->where(
 
-            $slug
+                'slug',
 
-        )->firstOrFail();
+                $slug
+
+            )
+
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            )
+
+            ->firstOrFail();
+
 
 
         return response()->json([
 
-
             'success' => true,
-
 
             'course' => $course->name,
 
+            'fees' => FeeStructureResource::collection(
 
-            'fees' => $course->feeStructures
+                $course->feeStructures
 
+            )
 
         ]);
     }
 
+
     public function bySpecialization($slug)
     {
 
+        $specialization = Specialization::query()
 
-        $specialization = Specialization::where(
+            ->with('feeStructures')
 
-            'slug',
+            ->where(
 
-            $slug
+                'slug',
 
-        )->firstOrFail();
+                $slug
+
+            )
+
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            )
+
+            ->firstOrFail();
 
 
 
         return response()->json([
 
-
             'success' => true,
 
+            'specialization' => $specialization->name,
 
-            'data' => $specialization->feeStructures
+            'fees' => FeeStructureResource::collection(
 
+                $specialization->feeStructures
+
+            )
 
         ]);
     }

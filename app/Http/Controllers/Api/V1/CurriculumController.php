@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Curriculum\CurriculumResource;
 use App\Models\Curriculum;
 
-
-use Illuminate\Http\Request;
-
 class CurriculumController extends Controller
 {
     public function index()
@@ -17,27 +14,65 @@ class CurriculumController extends Controller
         $curricula = Curriculum::query()
 
             ->with([
+
                 'course',
+
                 'specialization'
+
             ])
 
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            )
+
             ->latest()
+
             ->paginate();
 
 
+
         return CurriculumResource::collection(
+
             $curricula
+
         );
     }
+
 
     public function show($slug)
     {
 
-        $curriculum = Curriculum::where('slug', $slug)
+        $curriculum = Curriculum::query()
 
             ->with([
+
+                'course',
+
+                'specialization',
+
                 'semesters.subjects'
+
             ])
+
+            ->where(
+
+                'slug',
+
+                $slug
+
+            )
+
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            )
 
             ->firstOrFail();
 
@@ -48,7 +83,9 @@ class CurriculumController extends Controller
             'success' => true,
 
             'data' => new CurriculumResource(
+
                 $curriculum
+
             )
 
         ]);

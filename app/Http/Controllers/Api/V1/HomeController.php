@@ -15,40 +15,28 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $university = University::query()
-            ->with([
-                'hero',
-                'about',
-                'eligibilities',
-                'whyChooseUs',
-                'faqs',
-                'footerCta',
-                'news'
-            ])
-            ->first();
+        $university = university();
 
-        if (!$university) {
-            return response()->json([
-                'success' => false,
-                'message' => 'University not found'
-            ], 404);
-        }
+        $university->loadMissing([
+            'hero',
+            'about',
+            'eligibilities',
+            'whyChooseUs',
+            'faqs',
+            'footerCta',
+            'news',
+        ]);
 
         return response()->json([
-
             'success' => true,
 
             'data' => [
 
-                'hero' => new HeroResource(
-                    $university->hero
-                ),
+                'hero' => new HeroResource($university->hero),
 
-                'about' => new AboutResource(
-                    $university->about
-                ),
+                'about' => new AboutResource($university->about),
 
                 'eligibilities' => EligibilityResource::collection(
                     $university->eligibilities
@@ -68,10 +56,8 @@ class HomeController extends Controller
 
                 'news' => NewsResource::collection(
                     $university->news
-                )
-
+                ),
             ]
-
         ]);
     }
 }

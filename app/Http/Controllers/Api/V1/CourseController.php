@@ -12,41 +12,58 @@ class CourseController extends Controller
     public function index(Request $request)
     {
 
-        $query = Course::query();
+        $university = university();
+
+        $query = Course::query()
+
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            );
+
 
 
         if ($request->filled('level')) {
+
             $query->where(
+
                 'course_level',
+
                 $request->level
+
             );
         }
+
 
 
         if ($request->filled('study_mode')) {
+
             $query->where(
+
                 'study_mode',
+
                 $request->study_mode
+
             );
         }
 
-
-        if ($request->filled('university')) {
-            $query->where(
-                'university_id',
-                $request->university
-            );
-        }
 
 
         $courses = $query
+
             ->latest()
+
             ->paginate(10);
+
 
 
         return response()->json([
 
             'success' => true,
+
 
             'data' => CourseResource::collection(
 
@@ -60,26 +77,33 @@ class CourseController extends Controller
     public function show($slug)
     {
 
-
         $course = Course::where(
 
             'slug',
 
             $slug
 
-        )->firstOrFail();
+        )
 
+            ->where(
+
+                'university_id',
+
+                university()->id
+
+            )
+
+            ->firstOrFail();
 
 
         return response()->json([
 
-
             'success' => true,
-
 
             'data' => new CourseResource(
 
                 $course
+
             )
 
         ]);
