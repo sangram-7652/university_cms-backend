@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Universities\Schemas;
 
 use App\Forms\Components\SeoSection;
 use Filament\Forms\Components\ColorPicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -21,8 +22,23 @@ class UniversityForm
                     ->required(),
                 TextInput::make('subdomain')
                     ->required(),
-                TextInput::make('logo'),
-                TextInput::make('favicon'),
+                FileUpload::make('logo')
+                    ->image()
+                    ->directory('universities/logo')
+                    ->disk('public')
+                    ->imageEditor()
+                    ->maxSize(2048),
+
+                FileUpload::make('favicon')
+                    ->image()
+                    ->directory('universities/favicon')
+                    ->disk('public')
+                    ->acceptedFileTypes([
+                        'image/png',
+                        'image/x-icon',
+                        'image/vnd.microsoft.icon'
+                    ])
+                    ->maxSize(512),
                 TextInput::make('email')
                     ->label('Email address')
                     ->email()
@@ -33,13 +49,6 @@ class UniversityForm
                 ColorPicker::make('primary_color'),
                 ColorPicker::make('secondary_color'),
                 ColorPicker::make('accent_color'),
-                // TextInput::make('primary_color')
-                //     ->required(),
-                // TextInput::make('secondary_color')
-                //     ->required(),
-                // TextInput::make('accent_color')
-                //     ->required(),
-                // TextInput::make('font_family'),
                 Select::make('font_family')->options([
                     'Inter' => 'Inter',
                     'Poppins' => 'Poppins',

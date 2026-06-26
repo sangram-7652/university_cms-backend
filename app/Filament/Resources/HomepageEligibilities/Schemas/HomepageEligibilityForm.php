@@ -37,6 +37,7 @@ class HomepageEligibilityForm
                     ->image()
                     ->disk('public')
                     ->directory('homepage/eligibility')
+                    ->visibility('public')
                     ->imageEditor(),
 
                 TextInput::make('button_text')
