@@ -35,6 +35,7 @@ class HomepageEligibilityForm
 
                 FileUpload::make('certificate_image')
                     ->image()
+                    ->disk('public')
                     ->directory('homepage/eligibility')
                     ->imageEditor(),
 
