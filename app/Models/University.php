@@ -11,6 +11,9 @@ use App\Models\HomepageWhyChooseUs;
 use App\Models\HomepageFaq;
 use App\Models\FooterCta;
 use App\Models\Course;
+use App\Models\FeeStructure;
+use App\Models\Blog;
+use App\Models\SeoMeta;
 
 class University extends Model
 {
@@ -31,39 +34,6 @@ class University extends Model
         'is_active'
     ];
 
-    // public function homepage()
-    // {
-    //     return $this->hasMany(HomePageHero::class);
-    // }
-
-    // public function news()
-    // {
-    //     return $this->hasMany(News::class);
-    // }
-
-    // public function about()
-    // {
-    //     return $this->hasOne(HomepageAbout::class);
-    // }
-
-    // public function eligibility()
-    // {
-    //     return $this->hasOne(HomepageEligibility::class);
-    // }
-
-    // public function whyChooseUs()
-    // {
-    //     return $this->hasOne(HomepageWhyChooseUs::class);
-    // }
-
-    // public function faqs()
-    // {
-    //     return $this->hasMany(HomepageFaq::class);
-    // }
-    //  public function footerCta()
-    // {
-    //     return $this->hasOne(FooterCta::class);
-    // }
 
 
     public function hero()

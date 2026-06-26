@@ -34,6 +34,26 @@ class HomeController extends Controller
 
             'data' => [
 
+                'university' => [
+
+                    'name' => $university->name,
+
+                    'logo' => $university->logo,
+
+                    'favicon' => $university->favicon,
+
+                    'primary_color' => $university->primary_color,
+
+                    'secondary_color' => $university->secondary_color,
+
+                    'accent_color' => $university->accent_color,
+
+                    'font_family' => $university->font_family,
+
+                    'border_radius' => $university->border_radius,
+
+                ],
+
                 'hero' => new HeroResource($university->hero),
 
                 'about' => new AboutResource($university->about),
