@@ -14,15 +14,11 @@ class SpecializationController extends Controller
     {
         $university = university();
 
-        $specializations = Specialization::query()
-
-            ->where(
-                'university_id',
-                $university->id
-            )
-
+        $specializations = Specialization::with('course')
+            ->whereHas('course', function ($query) use ($university) {
+                $query->where('university_id', $university->id);
+            })
             ->latest()
-
             ->paginate(10);
 
 
@@ -44,78 +40,32 @@ class SpecializationController extends Controller
     {
         $university = university();
 
-        $specialization = Specialization::with('seo')
+        $specialization = Specialization::with([
+            'seo',
+            'course',
+        ])
             ->where('slug', $slug)
-            ->where('university_id', $university->id)
+            ->whereHas('course', function ($query) use ($university) {
+                $query->where('university_id', $university->id);
+            })
             ->firstOrFail();
 
         return response()->json([
 
             'success' => true,
-
             'data' => [
 
                 'seo' => new SeoMetaResource($specialization->seo),
 
+                'course' => [
+                    'id' => $specialization->course->id,
+                    'name' => $specialization->course->name,
+                    'slug' => $specialization->course->slug,
+                ],
+
                 'specialization' => new SpecializationResource($specialization),
 
             ]
-
-        ]);
-    }
-
-    public function byCourse($slug)
-    {
-        $university = university();
-
-
-        $course = Course::query()
-
-            ->where(
-
-                'slug',
-
-                $slug
-
-            )
-
-            ->where(
-
-                'university_id',
-
-                $university->id
-
-            )
-
-            ->firstOrFail();
-
-
-        $specializations = $course->specializations()
-
-            ->where(
-
-                'university_id',
-
-                $university->id
-
-            )
-
-            ->latest()
-
-            ->get();
-
-
-        return response()->json([
-
-            'success' => true,
-
-            'course' => $course->name,
-
-            'data' => SpecializationResource::collection(
-
-                $specializations
-
-            )
 
         ]);
     }

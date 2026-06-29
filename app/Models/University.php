@@ -117,4 +117,6 @@ class University extends Model
     {
         return $this->hasMany(SchemaTemplate::class);
     }
+
+
 }

@@ -7,6 +7,7 @@ use App\Http\Resources\Api\Course\CourseResource;
 use App\Http\Resources\Api\Seo\SeoMetaResource;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use App\Http\Resources\Api\Specialization\SpecializationResource;
 
 class CourseController extends Controller
 {
@@ -78,7 +79,12 @@ class CourseController extends Controller
     public function show($slug)
     {
 
-        $course = Course::with('seo')
+
+
+        $course = Course::with([
+            'seo',
+            'specializations'
+        ])
             ->where('slug', $slug)
             ->where('university_id', university()->id)
             ->firstOrFail();
@@ -93,6 +99,10 @@ class CourseController extends Controller
                 'seo' => new SeoMetaResource($course->seo),
 
                 'course' => new CourseResource($course),
+
+                'specializations' => SpecializationResource::collection(
+                    $course->specializations
+                ),
 
             ]
 

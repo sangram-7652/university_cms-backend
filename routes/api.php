@@ -76,10 +76,10 @@ Route::prefix('v1')->group(function () {
             [FeeController::class, 'show']
         );
 
-        Route::get(
-            '/courses/{slug}/fees',
-            [FeeController::class, 'byCourse']
-        );
+        // Route::get(
+        //     '/courses/{slug}/fees',
+        //     [FeeController::class, 'byCourse']
+        // );
 
         Route::get(
             '/specializations/{slug}/fees',

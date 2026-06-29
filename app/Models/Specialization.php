@@ -20,6 +20,7 @@ class Specialization extends Model
         'sort_order',
     ];
 
+
     public function course()
     {
         return $this->belongsTo(Course::class);

@@ -18,6 +18,7 @@ class SeoSettingResource extends Resource
     Heroicon::OutlinedCog6Tooth;
 
     protected static ?string $recordTitleAttribute = 'site_name';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function getNavigationGroup(): ?string
     {
