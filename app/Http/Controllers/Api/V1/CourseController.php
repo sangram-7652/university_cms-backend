@@ -100,9 +100,6 @@ class CourseController extends Controller
 
                 'course' => new CourseResource($course),
 
-                'specializations' => SpecializationResource::collection(
-                    $course->specializations
-                ),
 
             ]
 
