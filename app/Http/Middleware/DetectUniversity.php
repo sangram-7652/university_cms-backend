@@ -13,17 +13,16 @@ class DetectUniversity
         $host = $request->getHost();
 
         if (in_array($host, ['localhost', '127.0.0.1'])) {
-
-            $slug = env('DEFAULT_TENANT');
+            $slug = env('DEFAULT_TENANT', 'dusol');
+        } elseif ($host === 'api.distanceeducationlearning.com') {
+            $slug = $request->header('X-Tenant', env('DEFAULT_TENANT', 'dusol'));
         } else {
-
             $slug = explode('.', $host)[0];
         }
 
         $university = University::where('subdomain', $slug)->first();
 
         if (!$university) {
-
             return response()->json([
                 'success' => false,
                 'message' => 'University not found',

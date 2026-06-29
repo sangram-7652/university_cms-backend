@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Api\Specialization\SpecializationResource;
 
+
 class CourseResource extends JsonResource
 {
     /**
@@ -16,11 +17,18 @@ class CourseResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+
             'id' => $this->id,
-            'university_id' => $this->university_id,
+
             'name' => $this->name,
             'slug' => $this->slug,
             'short_name' => $this->short_name,
+
+            'university' => $this->whenLoaded('university', function () {
+                return [
+                    'name' => $this->university->name,
+                ];
+            }),
 
             'duration' => $this->duration,
             'duration_type' => $this->duration_type,
@@ -35,11 +43,11 @@ class CourseResource extends JsonResource
             'career_scope' => $this->career_scope,
 
             'is_featured' => (bool) $this->is_featured,
-            'status' => (bool) $this->status,
 
             'specializations' => SpecializationResource::collection(
                 $this->whenLoaded('specializations')
             ),
+
         ];
     }
 }

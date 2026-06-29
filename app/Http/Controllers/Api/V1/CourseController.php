@@ -79,11 +79,13 @@ class CourseController extends Controller
     public function show($slug)
     {
 
-
-
         $course = Course::with([
             'seo',
-            'specializations'
+            'university',
+            'specializations',
+            'feeStructures.items',
+            'curricula.semesters.subjects',
+            'faqs',
         ])
             ->where('slug', $slug)
             ->where('university_id', university()->id)

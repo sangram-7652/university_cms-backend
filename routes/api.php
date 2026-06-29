@@ -128,16 +128,5 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/leads', [LeadController::class, 'store']);
 
-
-        Route::prefix('seo')->group(function () {
-
-            Route::get('/global', [SeoController::class, 'global']);
-
-            Route::get('/schema', [SeoController::class, 'schema']);
-
-            Route::get('/sitemap', [SeoController::class, 'sitemap']);
-
-            Route::get('/robots', [SeoController::class, 'robots']);
-        });
     });
 });
