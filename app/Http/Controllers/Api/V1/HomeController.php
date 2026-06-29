@@ -79,7 +79,7 @@ class HomeController extends Controller
                     $university->news
                 ),
 
-                'seo' => SeoMetaResource::collection(
+                'seo' => new SeoMetaResource(
                     $university->seo
                 )
             ]
