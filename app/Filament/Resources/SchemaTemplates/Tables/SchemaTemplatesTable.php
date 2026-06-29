@@ -14,6 +14,7 @@ class SchemaTemplatesTable
     {
         return $table
             ->columns([
+                TextColumn::make('university.name')->label('University')->searchable()->sortable(),
 
                 TextColumn::make('name')
                     ->searchable(),

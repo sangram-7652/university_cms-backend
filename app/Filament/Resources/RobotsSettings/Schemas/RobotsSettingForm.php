@@ -9,6 +9,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Select;
 
 class RobotsSettingForm
 {
@@ -16,6 +17,14 @@ class RobotsSettingForm
     {
         return $schema
             ->components([
+                Section::make('University')
+                    ->schema([
+                        Select::make('university_id')
+                            ->relationship('university', 'name')
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+                    ]),
 
                 Section::make('General Settings')
                     ->schema([

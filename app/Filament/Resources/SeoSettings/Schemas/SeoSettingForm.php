@@ -9,6 +9,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
+use Filament\Forms\Components\Select;
 
 class SeoSettingForm
 {
@@ -19,6 +20,12 @@ class SeoSettingForm
 
                 Section::make('Basic SEO')
                     ->schema([
+
+                        Select::make('university_id')
+                            ->relationship('university', 'name')
+                            ->required()
+                            ->searchable()
+                            ->preload(),
 
                         TextInput::make('site_name')
                             ->required(),

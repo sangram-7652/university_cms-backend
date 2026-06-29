@@ -10,6 +10,7 @@ use App\Http\Resources\Api\Home\WhyChooseUsResource;
 use App\Http\Resources\Api\Home\FaqResource;
 use App\Http\Resources\Api\Home\FooterCtaResource;
 use App\Http\Resources\Api\Home\NewsResource;
+use App\Http\Resources\Api\Seo\SeoMetaResource;
 use App\Models\University;
 use Illuminate\Http\Request;
 
@@ -77,6 +78,10 @@ class HomeController extends Controller
                 'news' => NewsResource::collection(
                     $university->news
                 ),
+
+                'seo' => SeoMetaResource::collection(
+                    $university->seo
+                )
             ]
         ]);
     }

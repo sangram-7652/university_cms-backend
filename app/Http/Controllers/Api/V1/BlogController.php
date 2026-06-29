@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Blog\BlogDetailResource;
+use App\Http\Resources\Api\Seo\SeoMetaResource;
 use App\Http\Resources\Api\Blog\BlogResource;
 use App\Models\Blog;
 
@@ -65,7 +66,6 @@ class BlogController extends Controller
             ]
 
         ]);
-
     }
 
 
@@ -73,59 +73,24 @@ class BlogController extends Controller
 
     public function show($slug)
     {
-
-
-        $blog = Blog::query()
-
-            ->where(
-
-                'slug',
-
-                $slug
-
-            )
-
-            ->where(
-
-                'university_id',
-
-                university()->id
-
-            )
-
-            ->where(
-
-                'status',
-
-                true
-
-            )
-
+        $blog = Blog::with('seo')
+            ->where('slug', $slug)
+            ->where('university_id', university()->id)
+            ->where('status', true)
             ->firstOrFail();
 
-
-
-        $blog->increment(
-
-            'views'
-
-        );
-
-
+        $blog->increment('views');
 
         return response()->json([
-
             'success' => true,
-
             'message' => 'Blog fetched successfully',
+            'data' => [
 
-            'data' => new BlogDetailResource(
+                'seo' => new SeoMetaResource($blog->seo),
 
-                $blog
+                'blog' => new BlogDetailResource($blog),
 
-            )
-
+            ]
         ]);
-
     }
 }

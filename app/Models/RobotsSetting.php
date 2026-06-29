@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RobotsSetting extends Model
 {
     protected $fillable = [
-
+        'university_id',
         'enabled',
         'default_user_agent',
 
@@ -29,4 +29,9 @@ class RobotsSetting extends Model
 
         'disallow_paths' => 'array',
     ];
+
+    public function university()
+    {
+        return $this->belongsTo(University::class);
+    }
 }

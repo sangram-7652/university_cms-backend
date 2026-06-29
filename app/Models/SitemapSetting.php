@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SitemapSetting extends Model
 {
     protected $fillable = [
-
+        'university_id',
         'universities_enabled',
         'courses_enabled',
         'specializations_enabled',
@@ -26,4 +26,9 @@ class SitemapSetting extends Model
 
         'priority' => 'float',
     ];
+
+    public function university()
+    {
+        return $this->belongsTo(University::class);
+    }
 }

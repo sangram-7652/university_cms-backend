@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Specialization\SpecializationResource;
+use App\Http\Resources\Api\Seo\SeoMetaResource;
 use App\Models\Course;
 use App\Models\Specialization;
 
@@ -43,41 +44,25 @@ class SpecializationController extends Controller
     {
         $university = university();
 
-
-        $specialization = Specialization::query()
-
-            ->where(
-
-                'slug',
-
-                $slug
-
-            )
-
-            ->where(
-
-                'university_id',
-
-                $university->id
-
-            )
-
+        $specialization = Specialization::with('seo')
+            ->where('slug', $slug)
+            ->where('university_id', $university->id)
             ->firstOrFail();
-
 
         return response()->json([
 
             'success' => true,
 
-            'data' => new SpecializationResource(
+            'data' => [
 
-                $specialization
+                'seo' => new SeoMetaResource($specialization->seo),
 
-            )
+                'specialization' => new SpecializationResource($specialization),
+
+            ]
 
         ]);
     }
-
 
     public function byCourse($slug)
     {

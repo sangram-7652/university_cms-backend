@@ -14,6 +14,11 @@ class SitemapSettingsTable
         return $table
             ->columns([
 
+                TextColumn::make('university.name')
+                    ->label('University')
+                    ->searchable()
+                    ->sortable(),
+
                 IconColumn::make('universities_enabled')
                     ->label('Universities')
                     ->boolean(),

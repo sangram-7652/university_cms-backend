@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Course\CourseResource;
+use App\Http\Resources\Api\Seo\SeoMetaResource;
 use App\Models\Course;
 use Illuminate\Http\Request;
 
@@ -77,22 +78,9 @@ class CourseController extends Controller
     public function show($slug)
     {
 
-        $course = Course::where(
-
-            'slug',
-
-            $slug
-
-        )
-
-            ->where(
-
-                'university_id',
-
-                university()->id
-
-            )
-
+        $course = Course::with('seo')
+            ->where('slug', $slug)
+            ->where('university_id', university()->id)
             ->firstOrFail();
 
 
@@ -100,11 +88,13 @@ class CourseController extends Controller
 
             'success' => true,
 
-            'data' => new CourseResource(
+            'data' => [
 
-                $course
+                'seo' => new SeoMetaResource($course->seo),
 
-            )
+                'course' => new CourseResource($course),
+
+            ]
 
         ]);
     }

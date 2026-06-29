@@ -14,6 +14,11 @@ use App\Models\Course;
 use App\Models\FeeStructure;
 use App\Models\Blog;
 use App\Models\SeoMeta;
+use App\Models\SeoSetting;
+use App\Models\SchemaTemplate;
+use App\Models\SitemapSetting;
+use App\Models\RobotsSetting;
+
 
 class University extends Model
 {
@@ -91,5 +96,25 @@ class University extends Model
     public function seo()
     {
         return $this->morphOne(SeoMeta::class, 'seoable');
+    }
+
+    public function seoSetting()
+    {
+        return $this->hasOne(SeoSetting::class);
+    }
+
+    public function sitemapSetting()
+    {
+        return $this->hasOne(SitemapSetting::class);
+    }
+
+    public function robotsSetting()
+    {
+        return $this->hasOne(RobotsSetting::class);
+    }
+
+    public function schemaTemplates()
+    {
+        return $this->hasMany(SchemaTemplate::class);
     }
 }

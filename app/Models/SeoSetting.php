@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SeoSetting extends Model
 {
     protected $fillable = [
+        'university_id',
 
         'site_name',
 
@@ -35,4 +36,9 @@ class SeoSetting extends Model
         'enable_sitemap',
         'enable_robots',
     ];
+
+    public function university()
+    {
+        return $this->belongsTo(University::class);
+    }
 }

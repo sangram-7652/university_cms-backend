@@ -19,6 +19,7 @@ class SchemaTemplateForm
 
                 Section::make('Schema Information')
                     ->schema([
+                        Select::make('university_id')->relationship('university', 'name')->required()->searchable()->preload(),
 
                         TextInput::make('name')
                             ->required(),

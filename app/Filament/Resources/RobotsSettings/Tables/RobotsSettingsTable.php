@@ -14,6 +14,8 @@ class RobotsSettingsTable
         return $table
             ->columns([
 
+                TextColumn::make('university.name')->label('University')->searchable()->sortable(),
+
                 IconColumn::make('enabled')
                     ->label('Robots Enabled')
                     ->boolean(),

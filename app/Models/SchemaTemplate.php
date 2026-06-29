@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SchemaTemplate extends Model
 {
     protected $fillable = [
+        'university_id',
 
         'name',
 
@@ -20,4 +21,9 @@ class SchemaTemplate extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    public function university()
+    {
+        return $this->belongsTo(University::class);
+    }
 }

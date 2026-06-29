@@ -16,6 +16,17 @@ class SitemapSettingForm
         return $schema
             ->components([
 
+                Section::make('University')
+                    ->schema([
+
+                        Select::make('university_id')
+                            ->relationship('university', 'name')
+                            ->required()
+                            ->searchable()
+                            ->preload(),
+
+                    ]),
+
                 Section::make('Included Content')
                     ->schema([
 
