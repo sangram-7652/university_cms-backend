@@ -37,8 +37,10 @@ class HomepageWhyChooseUsForm
 
                 FileUpload::make('image')
                     ->image()
-                    ->imageEditor()
+                    ->disk('public')
                     ->directory('homepage/why-choose-us'),
+                    ->visibility('public')
+                    ->imageEditor()
 
                 Repeater::make('points')
                     ->schema([
