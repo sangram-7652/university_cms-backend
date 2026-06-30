@@ -50,48 +50,7 @@ class SeoController extends Controller
 
 
 
-    /**
-     * Schema Templates
-     */
-    public function schema()
-    {
 
-        $schemas = SchemaTemplate::query()
-
-            ->where(
-
-                'university_id',
-
-                university()->id
-
-            )
-
-            ->where(
-
-                'is_active',
-
-                true
-
-            )
-
-            ->get();
-
-
-
-        return response()->json([
-
-            'success' => true,
-
-            'message' => 'Schema templates fetched successfully',
-
-            'data' => SchemaResource::collection(
-
-                $schemas
-
-            ),
-
-        ]);
-    }
 
 
 

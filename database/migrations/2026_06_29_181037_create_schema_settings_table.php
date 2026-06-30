@@ -11,14 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('schema_templates', function (Blueprint $table) {
+        Schema::create('schema_settings', function (Blueprint $table) {
+
+            $table->id();
 
             $table->foreignId('university_id')
-                ->nullable()
-                ->after('id')
                 ->constrained()
-                ->nullOnDelete();
+                ->cascadeOnDelete();
 
+            $table->string('page_type');
+
+            $table->boolean('is_active')
+                ->default(true);
+
+            $table->timestamps();
+
+            $table->unique([
+                'university_id',
+                'page_type',
+            ]);
         });
     }
 
@@ -27,10 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('schema_templates', function (Blueprint $table) {
-
-            $table->dropConstrainedForeignId('university_id');
-
-        });
+        Schema::dropIfExists('schema_settings');
     }
 };

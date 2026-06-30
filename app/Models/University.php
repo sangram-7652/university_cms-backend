@@ -15,7 +15,7 @@ use App\Models\FeeStructure;
 use App\Models\Blog;
 use App\Models\SeoMeta;
 use App\Models\SeoSetting;
-use App\Models\SchemaTemplate;
+use App\Models\SchemaSetting;
 use App\Models\SitemapSetting;
 use App\Models\RobotsSetting;
 
@@ -113,10 +113,10 @@ class University extends Model
         return $this->hasOne(RobotsSetting::class);
     }
 
-    public function schemaTemplates()
-    {
-        return $this->hasMany(SchemaTemplate::class);
-    }
+   public function schemaSettings()
+{
+    return $this->hasMany(SchemaSetting::class);
+}
 
 
 }
