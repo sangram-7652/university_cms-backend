@@ -56,9 +56,13 @@ class HomeController extends Controller
 
                 ],
 
-                'hero' => new HeroResource($university->hero),
+                'hero' => $university->hero
+                    ? new HeroResource($university->hero)
+                    : null,
 
-                'about' => new AboutResource($university->about),
+                'about' => $university->about
+                    ? new AboutResource($university->about)
+                    : null,
 
                 'eligibilities' => EligibilityResource::collection(
                     $university->eligibilities
@@ -72,18 +76,19 @@ class HomeController extends Controller
                     $university->faqs
                 ),
 
-                'footer_cta' => new FooterCtaResource(
-                    $university->footerCta
-                ),
+                'footer_cta' => $university->footerCta
+                    ? new FooterCtaResource($university->footerCta)
+                    : null,
 
                 'news' => NewsResource::collection(
                     $university->news
                 ),
 
-                'seo' => new SeoMetaResource(
-                    $university->seo
-                )
+                'seo' => $university->seo
+                    ? new SeoMetaResource($university->seo)
+                    : null,
             ]
         ]);
     }
 }
+
