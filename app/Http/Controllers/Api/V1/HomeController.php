@@ -28,6 +28,7 @@ class HomeController extends Controller
             'faqs',
             'footerCta',
             'news',
+            'seo',
         ]);
 
         return response()->json([
