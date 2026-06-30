@@ -123,4 +123,16 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Default Tenant
+    |--------------------------------------------------------------------------
+    |
+    | The subdomain slug used as the fallback tenant when running on localhost
+    | or 127.0.0.1. Set DEFAULT_TENANT in your .env file.
+    |
+    */
+
+    'default_tenant' => env('DEFAULT_TENANT', 'dusol'),
+
 ];

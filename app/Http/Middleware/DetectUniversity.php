@@ -28,13 +28,13 @@ class DetectUniversity
 
         if (in_array($host, ['localhost', '127.0.0.1'])) {
 
-            $slug = env('DEFAULT_TENANT', 'dusol');
+            $slug = config('app.default_tenant', 'dusol');
 
         } elseif ($host === 'api.distanceeducationlearning.com') {
 
             // API domain se X-Tenant header use hoga
             $slug = strtolower(
-                $request->header('X-Tenant', env('DEFAULT_TENANT', 'dusol'))
+                $request->header('X-Tenant', config('app.default_tenant', 'dusol'))
             );
 
         } else {
@@ -48,7 +48,7 @@ class DetectUniversity
 
             // www ko ignore karo
             if ($slug === 'www') {
-                $slug = env('DEFAULT_TENANT', 'dusol');
+                $slug = config('app.default_tenant', 'dusol');
             }
         }
 
