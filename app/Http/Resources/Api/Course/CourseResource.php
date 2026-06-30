@@ -5,6 +5,9 @@ namespace App\Http\Resources\Api\Course;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Api\Specialization\SpecializationResource;
+use App\Http\Resources\Api\Fee\FeeStructureResource;
+use App\Http\Resources\Api\Curriculum\CurriculumResource;
+use App\Http\Resources\Api\Faq\FaqResource;
 
 
 class CourseResource extends JsonResource
