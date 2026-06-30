@@ -1,43 +1,100 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use App\Models\University;
+use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
-public function handle(Request $request, Closure $next)
+class DetectUniversity
 {
-    $host = $request->getHost();
+    public function handle(Request $request, Closure $next): Response
+    {
+        $host = strtolower($request->getHost());
 
-    Log::info('Tenant Debug', [
-        'host' => $host,
-        'headers' => $request->headers->all(),
-    ]);
-
-    if (in_array($host, ['localhost', '127.0.0.1'])) {
-        $slug = env('DEFAULT_TENANT', 'dusol');
-    } elseif ($host === 'api.distanceeducationlearning.com') {
-        $slug = $request->header('X-Tenant', env('DEFAULT_TENANT', 'dusol'));
-    } else {
-        $slug = explode('.', $host)[0];
-    }
-
-    Log::info('Tenant Slug', [
-        'slug' => $slug,
-    ]);
-
-    $university = University::where('subdomain', $slug)->first();
-
-    if (!$university) {
-        Log::error('Tenant Not Found', [
-            'slug' => $slug,
+        Log::info('Tenant Request', [
             'host' => $host,
+            'url' => $request->fullUrl(),
+            'headers' => $request->headers->all(),
         ]);
 
-        return response()->json([
-            'success' => false,
-            'message' => 'University not found',
-            'host' => $host,
+        /*
+        |--------------------------------------------------------------------------
+        | Detect Tenant
+        |--------------------------------------------------------------------------
+        */
+
+        if (in_array($host, ['localhost', '127.0.0.1'])) {
+
+            $slug = env('DEFAULT_TENANT', 'dusol');
+
+        } elseif ($host === 'api.distanceeducationlearning.com') {
+
+            // API domain se X-Tenant header use hoga
+            $slug = strtolower(
+                $request->header('X-Tenant', env('DEFAULT_TENANT', 'dusol'))
+            );
+
+        } else {
+
+            // dusol.distanceeducationlearning.com
+            // cuonline.distanceeducationlearning.com
+
+            $parts = explode('.', $host);
+
+            $slug = strtolower($parts[0] ?? '');
+
+            // www ko ignore karo
+            if ($slug === 'www') {
+                $slug = env('DEFAULT_TENANT', 'dusol');
+            }
+        }
+
+        Log::info('Tenant Slug', [
             'slug' => $slug,
-        ], 404);
+        ]);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Find University
+        |--------------------------------------------------------------------------
+        */
+
+        $university = University::where('subdomain', $slug)
+            ->where('is_active', true)
+            ->first();
+
+        if (!$university) {
+
+            Log::error('Tenant Not Found', [
+                'host' => $host,
+                'slug' => $slug,
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'University not found',
+                'host' => $host,
+                'slug' => $slug,
+            ], 404);
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Bind Tenant
+        |--------------------------------------------------------------------------
+        */
+
+        app()->instance('currentUniversity', $university);
+
+        Log::info('Tenant Loaded', [
+            'id' => $university->id,
+            'name' => $university->name,
+            'subdomain' => $university->subdomain,
+        ]);
+
+        return $next($request);
     }
-
-    app()->instance('currentUniversity', $university);
-
-    return $next($request);
 }
