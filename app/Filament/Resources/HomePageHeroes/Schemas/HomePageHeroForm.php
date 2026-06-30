@@ -50,7 +50,9 @@ class HomePageHeroForm
 
                 FileUpload::make('hero_image')
                     ->image()
+                    ->disk('public')
                     ->directory('homepage/heroes')
+                    ->visibility('public')
                     ->imageEditor()
                     ->columnSpanFull(),
 
