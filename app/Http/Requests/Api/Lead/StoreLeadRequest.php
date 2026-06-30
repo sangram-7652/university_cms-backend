@@ -1,200 +1,100 @@
-'use client'
+<?php
 
-import { AddLeadAPI } from '@/api'
-import { useEffect, useState } from 'react'
+namespace App\Http\Requests\Api\Lead;
 
-export default function LeadModal({ open, setOpen }) {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    course: '',
-    state: '',
-    remarks: '',
-    consent: false
-  })
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
-  useEffect(() => {
-    if (typeof document === 'undefined') return
-
-    const handler = e => {
-      if (e.key === 'Escape') {
-        setOpen(false)
-      }
+class StoreLeadRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
     }
 
-    document.addEventListener('keydown', handler)
+    public function rules(): array
+    {
+        return [
 
-    return () => {
-      document.removeEventListener('keydown', handler)
+            'name' => ['required', 'string', 'max:255'],
+
+            'email' => ['nullable', 'email', 'max:255'],
+
+            'phone' => ['required', 'string', 'max:20'],
+
+            'state' => ['nullable', 'string', 'max:100'],
+
+            'university_id' => [
+                'nullable',
+                'exists:universities,id'
+            ],
+
+            'course_id' => [
+                'nullable',
+                'exists:courses,id'
+            ],
+
+            'specialization_id' => [
+                'nullable',
+                'exists:specializations,id'
+            ],
+
+            'source' => [
+                'nullable',
+                'string',
+                'max:255'
+            ],
+
+            'page_url' => [
+                'nullable',
+                'url',
+                'max:1000'
+            ],
+
+            'remarks' => [
+                'nullable',
+                'string'
+            ],
+
+        ];
     }
-  }, [setOpen])
 
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
+    public function messages(): array
+    {
+        return [
 
-    return () => {
-      document.body.style.overflow = ''
+            'name.required' => 'Name is required.',
+
+            'phone.required' => 'Phone number is required.',
+
+            'email.email' => 'Please enter a valid email address.',
+
+            'university_id.exists' => 'Selected university does not exist.',
+
+            'course_id.exists' => 'Selected course does not exist.',
+
+            'specialization_id.exists' => 'Selected specialization does not exist.',
+
+            'page_url.url' => 'Please provide a valid page URL.',
+
+        ];
     }
-  }, [open])
 
-  if (!open) return null
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
 
-  const handleChange = e => {
-    const { name, value, type, checked } = e.target
+            response()->json([
 
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }))
-  }
+                'success' => false,
 
-  const buildLeadPayload = values => ({
-    name: values.name,
-    email: values.email,
-    phone: values.phone,
-    state: values.state,
-    remarks: values.remarks,
-    source: 'Google Ads',
-    page_url: window.location.href
-  })
+                'message' => 'Validation failed.',
 
-  const resetForm = () => {
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      course: '',
-      state: '',
-      remarks: '',
-      consent: false
-    })
-  }
+                'errors' => $validator->errors()
 
-  const handleSubmit = async e => {
-    e.preventDefault()
+            ], 422)
 
-    try {
-      const payload = buildLeadPayload(formData)
-
-      const response = await AddLeadAPI(payload)
-
-      if (response.data.success) {
-        alert(response.data.message)
-
-        resetForm()
-        setOpen(false)
-      } else {
-        alert(response.data.message || 'Something went wrong.')
-      }
-    } catch (error) {
-      console.error('Add Lead Error:', error)
-
-      alert(
-        error.response?.data?.message ||
-          'Failed to submit lead.'
-      )
+        );
     }
-  }
-
-  return (
-    <div className='lead-modal open'>
-      <div className='lead-overlay' onClick={() => setOpen(false)} />
-
-      <div className='lead-box'>
-        <button className='lead-x' onClick={() => setOpen(false)}>
-          &times;
-        </button>
-
-        <h3>Book 100% Free Counseling</h3>
-
-        <form className='lead-fields' onSubmit={handleSubmit}>
-          <input
-            type='text'
-            name='name'
-            placeholder='Enter Your Name'
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
-
-          <input
-            type='email'
-            name='email'
-            placeholder='Enter Your Email'
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-
-          <div className='lead-phone'>
-            <select disabled>
-              <option>IN +91</option>
-            </select>
-
-            <input
-              type='tel'
-              name='phone'
-              placeholder='Enter Your Number'
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <select
-            name='course'
-            value={formData.course}
-            onChange={handleChange}
-          >
-            <option value=''>Select Course</option>
-            <option>BA</option>
-            <option>BBA</option>
-            <option>BCom</option>
-            <option>BMS</option>
-            <option>MA</option>
-            <option>MBA</option>
-            <option>MCom</option>
-            <option>MCA</option>
-            <option>MLIS</option>
-            <option>MSc</option>
-          </select>
-
-          <select
-            name='state'
-            value={formData.state}
-            onChange={handleChange}
-            required
-          >
-            <option value=''>Select State</option>
-            <option>Delhi</option>
-            <option>Bihar</option>
-            <option>Uttar Pradesh</option>
-            <option>Haryana</option>
-            <option>Punjab</option>
-            <option>Rajasthan</option>
-            <option>Madhya Pradesh</option>
-            <option>Maharashtra</option>
-            <option>West Bengal</option>
-            <option>Other</option>
-          </select>
-
-          <label className='lead-consent'>
-            <input
-              type='checkbox'
-              name='consent'
-              checked={formData.consent}
-              onChange={handleChange}
-              required
-            />
-            I consent to share my details.
-          </label>
-
-          <button type='submit' className='lead-submit'>
-            SUBMIT
-          </button>
-        </form>
-      </div>
-    </div>
-  )
 }
