@@ -49,10 +49,10 @@ class NewsForm
 
                 FileUpload::make('pdf_file')
                     ->label('PDF File')
+                    ->disk('public')
                     ->directory('news-pdfs')
-                    ->acceptedFileTypes([
-                        'application/pdf'
-                    ])
+                    ->visibility('public')
+                    ->acceptedFileTypes(['application/pdf'])
                     ->downloadable()
                     ->nullable()
                     ->helperText('Optional. Upload PDF if required.'),
