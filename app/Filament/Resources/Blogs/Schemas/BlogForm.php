@@ -45,9 +45,16 @@ class BlogForm
                     ->columnSpanFull(),
 
                 FileUpload::make('featured_image')
+                    ->label('Featured Image')
                     ->image()
+                    ->disk('public')
                     ->directory('blogs')
+                    ->visibility('public')
                     ->imageEditor()
+                    ->imageResizeMode('cover')
+                    ->imageCropAspectRatio('16:9')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->maxSize(2048) // 2 MB
                     ->columnSpanFull(),
 
                 RichEditor::make('content')
