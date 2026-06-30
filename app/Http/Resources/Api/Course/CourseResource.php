@@ -47,6 +47,17 @@ class CourseResource extends JsonResource
             'specializations' => SpecializationResource::collection(
                 $this->whenLoaded('specializations')
             ),
+            'fee_structures' => FeeStructureResource::collection(
+                $this->whenLoaded('feeStructures')
+            ),
+            
+            'curricula' => CurriculumResource::collection(
+                $this->whenLoaded('curricula')
+            ),
+            
+            'faqs' => FaqResource::collection(
+                $this->whenLoaded('faqs')
+            ),
 
         ];
     }
