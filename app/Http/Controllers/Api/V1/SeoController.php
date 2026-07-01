@@ -4,57 +4,12 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Seo\RobotsResource;
-use App\Http\Resources\Api\Seo\SchemaResource;
-use App\Http\Resources\Api\Seo\SeoSettingResource;
 use App\Http\Resources\Api\Seo\SitemapResource;
 use App\Models\RobotsSetting;
-use App\Models\SchemaTemplate;
-use App\Models\SeoSetting;
 use App\Models\SitemapSetting;
 
 class SeoController extends Controller
 {
-
-    /**
-     * Global SEO
-     */
-    public function global()
-    {
-        $seo = SeoSetting::query()
-
-            ->where(
-
-                'university_id',
-
-                university()->id
-
-            )
-
-            ->first();
-
-
-        return response()->json([
-
-            'success' => true,
-
-            'message' => 'SEO settings fetched successfully',
-
-            'data' => $seo
-
-                ? new SeoSettingResource($seo)
-
-                : null,
-
-        ]);
-    }
-
-
-
-
-
-
-
-
     /**
      * Sitemap Settings
      */
