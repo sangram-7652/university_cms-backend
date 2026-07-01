@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\SeoController;
+use App\Http\Controllers\Api\V1\SeoController;
 
 Route::get('/', function () {
     return response()->json([
