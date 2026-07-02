@@ -71,5 +71,39 @@ class SpecializationController extends Controller
             ]
 
         ]);
+
+
+
     }
+
+    public function byCourse($slug)
+{
+    $university = university();
+
+    $course = Course::where('slug', $slug)
+        ->where('university_id', $university->id)
+        ->firstOrFail();
+
+    $specializations = Specialization::with([
+        'course.university',
+        'feeStructures.items',
+        'curricula.semesters.subjects',
+        'faqs',
+    ])
+        ->where('course_id', $course->id)
+        ->latest()
+        ->get();
+
+    return response()->json([
+        'success' => true,
+        'data' => [
+            'course' => [
+                'id' => $course->id,
+                'name' => $course->name,
+                'slug' => $course->slug,
+            ],
+            'specializations' => SpecializationResource::collection($specializations),
+        ],
+    ]);
+}
 }
