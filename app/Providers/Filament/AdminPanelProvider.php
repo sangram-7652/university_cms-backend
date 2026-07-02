@@ -58,9 +58,8 @@ class AdminPanelProvider extends PanelProvider
             )
 
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
-            ])
+                    \App\Filament\Widgets\DashboardStats::class,
+                ])
 
             ->middleware([
                 EncryptCookies::class,
