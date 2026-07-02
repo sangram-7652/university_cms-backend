@@ -10,6 +10,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use App\Models\Specialization;
 
 class CurriculumForm
 {
@@ -46,19 +47,23 @@ class CurriculumForm
                     ->live()
                     ->required()
 
+                   
+
                     ->afterStateUpdated(function (Set $set, ?string $state) {
 
-                        if (!$state) {
-                            $set('university_id', null);
-                            return;
-                        }
+                            $set('specialization_id', null);
 
-                        $course = Course::find($state);
+                            if (!$state) {
+                                $set('university_id', null);
+                                return;
+                            }
 
-                        if ($course) {
-                            $set('university_id', $course->university_id);
-                        }
-                    }),
+                            $course = Course::find($state);
+
+                            if ($course) {
+                                $set('university_id', $course->university_id);
+                            }
+                        }),
 
 
 
@@ -84,24 +89,29 @@ class CurriculumForm
                 |--------------------------------------------------------------------------
                 */
                 Select::make('specialization_id')
+                    ->label('Specialization')
+                    ->options(function (Get $get) {
 
-                    ->relationship('specialization', 'name')
+                        $courseId = $get('course_id');
 
+                        if (! $courseId) {
+                            return [];
+                        }
+
+                        return Specialization::where('course_id', $courseId)
+                            ->orderBy('name')
+                            ->pluck('name', 'id');
+                    })
                     ->searchable()
-
                     ->preload()
-
                     ->visible(
-                        fn(Get $get) =>
+                        fn (Get $get) =>
                         $get('curriculum_type') === 'specialization'
                     )
-
                     ->required(
-                        fn(Get $get) =>
+                        fn (Get $get) =>
                         $get('curriculum_type') === 'specialization'
                     ),
-
-
 
                 /*
                 |--------------------------------------------------------------------------
