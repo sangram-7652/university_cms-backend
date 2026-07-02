@@ -42,7 +42,10 @@ class SpecializationController extends Controller
 
         $specialization = Specialization::with([
             'seo',
-            'course',
+            'course.university',
+            'feeStructures.items',
+            'curricula.semesters.subjects',
+            'faqs',
         ])
             ->where('slug', $slug)
             ->whereHas('course', function ($query) use ($university) {
