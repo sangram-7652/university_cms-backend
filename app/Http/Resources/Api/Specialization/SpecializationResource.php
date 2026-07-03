@@ -4,6 +4,7 @@ namespace App\Http\Resources\Api\Specialization;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class SpecializationResource extends JsonResource
 {
@@ -28,6 +29,10 @@ class SpecializationResource extends JsonResource
             'duration' => $this->duration,
 
             'eligibility' => $this->eligibility,
+
+            'brochure' => $this->brochure
+                ? asset(Storage::url($this->brochure))
+                : null,
 
             'is_featured' => (bool) $this->is_featured,
 
@@ -77,11 +82,9 @@ class SpecializationResource extends JsonResource
                             'updated_at' => $item->updated_at,
 
                         ];
-
                     }),
 
                 ];
-
             }),
 
             'curricula' => $this->curricula->map(function ($curriculum) {
@@ -131,11 +134,9 @@ class SpecializationResource extends JsonResource
                             'subjects' => $semester->subjects,
 
                         ];
-
                     }),
 
                 ];
-
             }),
 
             'faqs' => $this->faqs->map(function ($faq) {
@@ -161,7 +162,6 @@ class SpecializationResource extends JsonResource
                     'updated_at' => $faq->updated_at,
 
                 ];
-
             }),
 
         ];

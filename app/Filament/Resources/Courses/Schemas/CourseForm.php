@@ -13,6 +13,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\RichEditor;
 use App\Forms\Components\SeoSection;
+use Filament\Forms\Components\FileUpload;
 
 class CourseForm
 {
@@ -89,6 +90,21 @@ class CourseForm
 
                         Textarea::make('short_description')
                             ->rows(4),
+
+                    ]),
+
+                Section::make('Brochure')
+                    ->schema([
+
+                        FileUpload::make('brochure')
+                            ->label('Course Brochure (PDF)')
+                            ->disk('public')
+                            ->directory('brochures')
+                            ->acceptedFileTypes([
+                                'application/pdf',
+                            ])
+                            ->downloadable()
+                            ->openable(),
 
                     ]),
 

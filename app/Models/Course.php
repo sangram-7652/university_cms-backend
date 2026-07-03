@@ -21,6 +21,7 @@ class Course extends Model
         'eligibility',
         'admission_process',
         'career_scope',
+        'brochure',
         'is_featured',
         'status',
     ];

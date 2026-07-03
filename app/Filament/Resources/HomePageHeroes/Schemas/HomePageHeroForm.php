@@ -48,6 +48,20 @@ class HomePageHeroForm
                 TextInput::make('video_url')
                     ->url(),
 
+                FileUpload::make('podcast_audio')
+                    ->label('Podcast Audio')
+                    ->disk('public')
+                    ->directory('podcasts')
+                    ->acceptedFileTypes([
+                        'audio/mpeg',
+                        'audio/mp3',
+                        'audio/wav',
+                        'audio/ogg',
+                    ])
+                    ->downloadable()
+                    ->openable()
+                    ->columnSpanFull(),
+
                 FileUpload::make('hero_image')
                     ->image()
                     ->disk('public')
@@ -55,9 +69,6 @@ class HomePageHeroForm
                     ->visibility('public')
                     ->imageEditor()
                     ->columnSpanFull(),
-
-
-
             ]);
     }
 }

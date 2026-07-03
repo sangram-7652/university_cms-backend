@@ -15,6 +15,7 @@ class Specialization extends Model
         'description',
         'duration',
         'eligibility',
+        'brochure',
         'is_featured',
         'is_active',
         'sort_order',

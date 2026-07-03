@@ -17,7 +17,8 @@ class HomePageHero extends Model
         'secondary_button_text',
         'secondary_button_url',
         'video_url',
-        'hero_image'
+        'hero_image',
+        'podcast_audio',
     ];
 
     public function university()

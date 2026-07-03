@@ -8,6 +8,7 @@ use App\Http\Resources\Api\Specialization\SpecializationResource;
 use App\Http\Resources\Api\Fee\FeeStructureResource;
 use App\Http\Resources\Api\Curriculum\CurriculumResource;
 use App\Http\Resources\Api\Faq\FaqResource;
+use Illuminate\Support\Facades\Storage;
 
 
 class CourseResource extends JsonResource
@@ -44,6 +45,9 @@ class CourseResource extends JsonResource
             'eligibility' => $this->eligibility,
             'admission_process' => $this->admission_process,
             'career_scope' => $this->career_scope,
+            'brochure' => $this->brochure
+                ? asset(Storage::url($this->brochure))
+                : null,
 
             'is_featured' => (bool) $this->is_featured,
 
@@ -53,11 +57,11 @@ class CourseResource extends JsonResource
             'fee_structures' => FeeStructureResource::collection(
                 $this->whenLoaded('feeStructures')
             ),
-            
+
             'curricula' => CurriculumResource::collection(
                 $this->whenLoaded('curricula')
             ),
-            
+
             'faqs' => FaqResource::collection(
                 $this->whenLoaded('faqs')
             ),

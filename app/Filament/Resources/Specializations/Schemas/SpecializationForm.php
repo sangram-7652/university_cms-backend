@@ -11,6 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
+use Filament\Forms\Components\FileUpload;
 
 
 class SpecializationForm
@@ -63,6 +64,8 @@ class SpecializationForm
 
                     ]),
 
+
+
                 Section::make('Academic Details')
                     ->schema([
 
@@ -74,6 +77,8 @@ class SpecializationForm
 
                     ])
                     ->columns(2),
+
+
 
                 Section::make('Display Settings')
                     ->schema([
@@ -90,6 +95,17 @@ class SpecializationForm
 
                     ])
                     ->columns(3),
+
+                FileUpload::make('brochure')
+                    ->label('Specialization Brochure (PDF)')
+                    ->disk('public')
+                    ->directory('brochures/specializations')
+                    ->acceptedFileTypes([
+                        'application/pdf',
+                    ])
+                    ->downloadable()
+                    ->openable()
+                    ->columnSpanFull(),
 
                 SeoSection::make(),
             ]);
