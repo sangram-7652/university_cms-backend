@@ -52,6 +52,7 @@ class HomePageHeroForm
                     ->label('Podcast Audio')
                     ->disk('public')
                     ->directory('podcasts')
+                    ->visibility('public')
                     ->acceptedFileTypes([
                         'audio/mpeg',
                         'audio/mp3',
