@@ -18,6 +18,7 @@ use App\Models\SeoSetting;
 use App\Models\SchemaSetting;
 use App\Models\SitemapSetting;
 use App\Models\RobotsSetting;
+use App\Models\HomepageProgram;
 
 
 class University extends Model
@@ -51,6 +52,11 @@ class University extends Model
     public function about()
     {
         return $this->hasOne(HomepageAbout::class);
+    }
+
+        public function program()
+    {
+        return $this->hasOne(HomepageProgram::class);
     }
 
     public function eligibilities()

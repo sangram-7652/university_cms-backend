@@ -11,6 +11,7 @@ use App\Http\Resources\Api\Home\FaqResource;
 use App\Http\Resources\Api\Home\FooterCtaResource;
 use App\Http\Resources\Api\Home\NewsResource;
 use App\Http\Resources\Api\Seo\SeoMetaResource;
+use App\Http\Resources\Api\Home\ProgramResource;
 use App\Models\University;
 use Illuminate\Http\Request;
 
@@ -23,6 +24,7 @@ class HomeController extends Controller
         $university->loadMissing([
             'hero',
             'about',
+            'program',
             'eligibilities',
             'whyChooseUs',
             'faqs',
@@ -62,6 +64,9 @@ class HomeController extends Controller
 
                 'about' => $university->about
                     ? new AboutResource($university->about)
+                    : null,
+                'program' => $university->program
+                    ? new ProgramResource($university->program)
                     : null,
 
                 'eligibilities' => EligibilityResource::collection(
