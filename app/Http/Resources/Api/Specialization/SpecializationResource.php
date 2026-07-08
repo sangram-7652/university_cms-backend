@@ -30,6 +30,12 @@ class SpecializationResource extends JsonResource
 
             'duration_type' => $this->duration_type,
 
+            'course_level' => $this->course_level,
+
+            'study_mode' => $this->study_mode,
+
+            'language' => $this->language,
+
             'eligibility' => $this->eligibility,
 
             'admission_process' => $this->admission_process,

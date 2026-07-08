@@ -15,6 +15,10 @@ class Specialization extends Model
 
         'duration',
         'duration_type',
+        'course_level',
+        'study_mode',
+        'language',
+
 
         'short_description',
         'overview',

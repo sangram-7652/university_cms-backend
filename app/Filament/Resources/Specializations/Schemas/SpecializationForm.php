@@ -66,9 +66,32 @@ class SpecializationForm
                             ])
                             ->default('Years')
                             ->required(),
+                          Select::make('course_level')
+                            ->label('Course Level')
+                            ->options([
+                                'UG' => 'UG',
+                                'PG' => 'PG',
+                                'Diploma' => 'Diploma',
+                                'Certificate' => 'Certificate',
+                                'Doctorate' => 'Doctorate',
+                            ])
+                            ->required(),
+                             Select::make('study_mode')
+                                ->label('Study Mode')
+                                ->options([
+                                    'Distance' => 'Distance',
+                                    'Online' => 'Online',
+                                    'Regular' => 'Regular',
+                                    'Hybrid' => 'Hybrid',
+                                ])
+                                ->required(),
+
+                                TextInput::make('language')
+                                    ->default('English')
+                                    ->required(),
 
                     ])
-                    ->columns(2),
+                    ->columns(3),
 
                 Section::make('Content')
                     ->schema([
