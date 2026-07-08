@@ -18,6 +18,10 @@ class UniversityResource extends JsonResource
 
             'slug' => $this->slug,
 
+            'short_name' => $this->short_name,
+
+            'tagline' => $this->tagline,
+
             'subdomain' => $this->subdomain,
 
             'logo' => $this->logo,

@@ -24,11 +24,17 @@ class SpecializationResource extends JsonResource
 
             'short_description' => $this->short_description,
 
-            'description' => $this->description,
+            'overview' => $this->overview,
 
             'duration' => $this->duration,
 
+            'duration_type' => $this->duration_type,
+
             'eligibility' => $this->eligibility,
+
+            'admission_process' => $this->admission_process,
+
+            'career_scope' => $this->career_scope,
 
             'brochure' => $this->brochure
                 ? asset(Storage::url($this->brochure))
@@ -36,12 +42,16 @@ class SpecializationResource extends JsonResource
 
             'is_featured' => (bool) $this->is_featured,
 
+            'status' => (bool) $this->status,
+
             'course' => [
                 'id' => $this->course?->id,
                 'name' => $this->course?->name,
                 'slug' => $this->course?->slug,
                 'university' => [
+                    'id' => $this->course?->university?->id,
                     'name' => $this->course?->university?->name,
+                    'slug' => $this->course?->university?->slug,
                 ],
             ],
 
@@ -105,7 +115,7 @@ class SpecializationResource extends JsonResource
 
                     'description' => $curriculum->description,
 
-                    'is_active' => $curriculum->is_active,
+                    'is_active' => (bool) $curriculum->is_active,
 
                     'created_at' => $curriculum->created_at,
 
@@ -125,7 +135,7 @@ class SpecializationResource extends JsonResource
 
                             'description' => $semester->description,
 
-                            'is_active' => $semester->is_active,
+                            'is_active' => (bool) $semester->is_active,
 
                             'created_at' => $semester->created_at,
 
@@ -155,7 +165,7 @@ class SpecializationResource extends JsonResource
 
                     'sort_order' => $faq->sort_order,
 
-                    'status' => $faq->status,
+                    'status' => (bool) $faq->status,
 
                     'created_at' => $faq->created_at,
 
@@ -163,6 +173,12 @@ class SpecializationResource extends JsonResource
 
                 ];
             }),
+
+            'seo' => $this->whenLoaded('seo'),
+
+            'created_at' => $this->created_at,
+
+            'updated_at' => $this->updated_at,
 
         ];
     }

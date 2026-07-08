@@ -3,16 +3,15 @@
 namespace App\Filament\Resources\Specializations\Schemas;
 
 use App\Forms\Components\SeoSection;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
-use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
-use Filament\Forms\Components\FileUpload;
-
 
 class SpecializationForm
 {
@@ -38,8 +37,7 @@ class SpecializationForm
                             ->maxLength(255)
                             ->live(onBlur: true)
                             ->afterStateUpdated(
-                                fn($state, callable $set) =>
-                                $set('slug', Str::slug($state))
+                                fn ($state, callable $set) => $set('slug', Str::slug($state))
                             ),
 
                         TextInput::make('slug')
@@ -52,6 +50,26 @@ class SpecializationForm
                     ])
                     ->columns(3),
 
+                Section::make('Academic Details')
+                    ->schema([
+
+                        TextInput::make('duration')
+                            ->numeric()
+                            ->minValue(1)
+                            ->placeholder('e.g. 2'),
+
+                        Select::make('duration_type')
+                            ->options([
+                                'Years' => 'Years',
+                                'Months' => 'Months',
+                                'Weeks' => 'Weeks',
+                            ])
+                            ->default('Years')
+                            ->required(),
+
+                    ])
+                    ->columns(2),
+
                 Section::make('Content')
                     ->schema([
 
@@ -59,26 +77,19 @@ class SpecializationForm
                             ->rows(4)
                             ->columnSpanFull(),
 
-                        RichEditor::make('description')
+                        RichEditor::make('overview')
+                            ->columnSpanFull(),
+
+                        RichEditor::make('eligibility')
+                            ->columnSpanFull(),
+
+                        RichEditor::make('admission_process')
+                            ->columnSpanFull(),
+
+                        RichEditor::make('career_scope')
                             ->columnSpanFull(),
 
                     ]),
-
-
-
-                Section::make('Academic Details')
-                    ->schema([
-
-                        TextInput::make('duration')
-                            ->placeholder('e.g. 2 Years'),
-
-                        TextInput::make('eligibility')
-                            ->placeholder('e.g. Graduation'),
-
-                    ])
-                    ->columns(2),
-
-
 
                 Section::make('Display Settings')
                     ->schema([
@@ -86,7 +97,7 @@ class SpecializationForm
                         Toggle::make('is_featured')
                             ->default(false),
 
-                        Toggle::make('is_active')
+                        Toggle::make('status')
                             ->default(true),
 
                         TextInput::make('sort_order')
@@ -96,18 +107,23 @@ class SpecializationForm
                     ])
                     ->columns(3),
 
-                FileUpload::make('brochure')
-                    ->label('Specialization Brochure (PDF)')
-                    ->disk('public')
-                    ->directory('brochures/specializations')
-                    ->acceptedFileTypes([
-                        'application/pdf',
-                    ])
-                    ->downloadable()
-                    ->openable()
-                    ->columnSpanFull(),
+                Section::make('Brochure')
+                    ->schema([
+
+                        FileUpload::make('brochure')
+                            ->label('Specialization Brochure (PDF)')
+                            ->disk('public')
+                            ->directory('brochures/specializations')
+                            ->acceptedFileTypes([
+                                'application/pdf',
+                            ])
+                            ->downloadable()
+                            ->openable(),
+
+                    ]),
 
                 SeoSection::make(),
+
             ]);
     }
 }

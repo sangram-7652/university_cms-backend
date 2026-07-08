@@ -25,6 +25,8 @@ class University extends Model
     protected $fillable = [
         'name',
         'slug',
+        'short_name',
+        'tagline',
         'subdomain',
         'logo',
         'favicon',

@@ -8,19 +8,33 @@ class Specialization extends Model
 {
     protected $fillable = [
         'course_id',
+
         'name',
         'slug',
         'code',
-        'short_description',
-        'description',
+
         'duration',
+        'duration_type',
+
+        'short_description',
+        'overview',
         'eligibility',
+        'admission_process',
+        'career_scope',
+
         'brochure',
+
         'is_featured',
-        'is_active',
+        'status',
         'sort_order',
     ];
 
+    protected $casts = [
+        'is_featured' => 'boolean',
+        'status' => 'boolean',
+        'duration' => 'integer',
+        'sort_order' => 'integer',
+    ];
 
     public function course()
     {

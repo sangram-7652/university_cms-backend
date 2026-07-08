@@ -20,6 +20,12 @@ class UniversityForm
                     ->required(),
                 TextInput::make('slug')
                     ->required(),
+                TextInput::make('short_name')
+                    ->label('Short Name')
+                    ->maxLength(255),
+                TextInput::make('tagline')
+                    ->label('Tagline')
+                    ->maxLength(255), 
                 TextInput::make('subdomain')
                     ->required(),
                 FileUpload::make('logo')

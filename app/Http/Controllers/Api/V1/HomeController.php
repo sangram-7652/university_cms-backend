@@ -39,9 +39,9 @@ class HomeController extends Controller
                 'university' => [
 
                     'name' => $university->name,
-
+                    'short_name' => $university->short_name,
+                    'tagline' => $university->tagline,
                     'logo' => $university->logo,
-
                     'favicon' => $university->favicon,
 
                     'primary_color' => $university->primary_color,
