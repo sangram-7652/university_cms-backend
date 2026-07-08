@@ -116,6 +116,11 @@ class AssignRolePermissionSeeder extends Seeder
             'edit_homepage_why_choose_us',
             'delete_homepage_why_choose_us',
 
+            'view_homepage_program',
+            'create_homepage_program',
+            'edit_homepage_program',
+            'delete_homepage_program',
+
             'view_footer_cta',
             'create_footer_cta',
             'edit_footer_cta',
