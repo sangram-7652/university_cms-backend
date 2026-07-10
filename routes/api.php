@@ -12,8 +12,14 @@ use App\Http\Controllers\Api\V1\FaqController;
 use App\Http\Controllers\Api\V1\BlogController;
 use App\Http\Controllers\Api\V1\BlogFaqController;
 use App\Http\Controllers\Api\V1\LeadController;
-use App\Http\Controllers\Api\V1\SeoController;
-
+use App\Http\Controllers\Api\V1\AdmissionController;
+use App\Http\Controllers\Api\V1\CoursesFeeController;
+use App\Http\Controllers\Api\V1\HallTicketController;
+use App\Http\Controllers\Api\V1\StudyMaterialController;
+use App\Http\Controllers\Api\V1\ResultController;
+use App\Http\Controllers\Api\V1\LibraryPortalController;
+use App\Http\Controllers\Api\V1\AssignmentStatusController;
+use App\Http\Controllers\Api\V1\AlternativeUniversityController;
 
 
 use Illuminate\Support\Facades\Route;
@@ -128,5 +134,20 @@ Route::prefix('v1')->group(function () {
 
         Route::post('/leads', [LeadController::class, 'store']);
 
+        Route::get('/admission', [AdmissionController::class, 'index']);
+
+        Route::get('/courses-fees', [CoursesFeeController::class, 'index']);
+
+        Route::get('/hall-ticket', [HallTicketController::class, 'index']);
+
+        Route::get('/study-material', [StudyMaterialController::class, 'index']);
+
+        Route::get('/result', [ResultController::class, 'index']);
+
+        Route::get('/library-portal', [LibraryPortalController::class, 'index']);
+
+        Route::get('/assignment-status', [AssignmentStatusController::class, 'index']);
+
+        Route::get('/alternative-universities', [AlternativeUniversityController::class, 'index']);
     });
 });

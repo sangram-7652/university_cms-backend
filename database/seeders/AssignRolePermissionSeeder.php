@@ -144,6 +144,53 @@ class AssignRolePermissionSeeder extends Seeder
             'create_robots_setting',
             'edit_robots_setting',
             'delete_robots_setting',
+
+            // Student Zone
+            'view_admission',
+            'create_admission',
+            'edit_admission',
+            'delete_admission',
+            // Courses Fees
+            'view_courses_fees',
+            'create_courses_fees',
+            'update_courses_fees',
+            'delete_courses_fees',
+
+            'view_hall_ticket',
+            'create_hall_ticket',
+            'edit_hall_ticket',
+            'delete_hall_ticket',
+
+            'view_study_material',
+            'create_study_material',
+            'edit_study_material',
+            'delete_study_material',
+
+            'view_result',
+            'create_result',
+            'edit_result',
+            'delete_result',
+
+            'view_library_portal',
+            'create_library_portal',
+            'edit_library_portal',
+            'delete_library_portal',
+
+            'view_assignment_status',
+            'create_assignment_status',
+            'edit_assignment_status',
+            'delete_assignment_status',
+
+            'view_alternative_university',
+            'create_alternative_university',
+            'edit_alternative_university',
+            'delete_alternative_university',
+
+
+
+
+
+
         ];
 
         $admin->syncPermissions($adminPermissions);

@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create('course_fee_items', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('courses_fee_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->string('course_name');
+
+            $table->string('duration');
+
+            $table->string('total_fee');
+
+            $table->unsignedInteger('sort_order')->default(0);
+
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('course_fee_items');
+    }
+};

@@ -19,6 +19,13 @@ use App\Models\SchemaSetting;
 use App\Models\SitemapSetting;
 use App\Models\RobotsSetting;
 use App\Models\HomepageProgram;
+use App\Models\Admission;
+use App\Models\CoursesFee;
+use App\Models\HallTicket;
+use App\Models\StudyMaterial;
+use App\Models\Result;
+use App\Models\LibraryPortal;
+
 
 
 class University extends Model
@@ -54,7 +61,7 @@ class University extends Model
         return $this->hasOne(HomepageAbout::class);
     }
 
-        public function program()
+    public function program()
     {
         return $this->hasOne(HomepageProgram::class);
     }
@@ -121,10 +128,48 @@ class University extends Model
         return $this->hasOne(RobotsSetting::class);
     }
 
-   public function schemaSettings()
-{
-    return $this->hasMany(SchemaSetting::class);
-}
+    public function schemaSettings()
+    {
+        return $this->hasMany(SchemaSetting::class);
+    }
 
+    public function admission()
+    {
+        return $this->hasOne(Admission::class);
+    }
 
+    public function coursesFee()
+    {
+        return $this->hasOne(CoursesFee::class);
+    }
+
+    public function hallTicket()
+    {
+        return $this->hasOne(HallTicket::class);
+    }
+
+    public function studyMaterials()
+    {
+        return $this->hasOne(StudyMaterial::class);
+    }
+
+    public function result()
+    {
+        return $this->hasOne(Result::class);
+    }
+
+    public function libraryPortal()
+    {
+        return $this->hasOne(LibraryPortal::class);
+    }
+
+    public function assignmentStatus()
+    {
+        return $this->hasOne(AssignmentStatus::class);
+    }
+
+    public function alternativeUniversities()
+    {
+        return $this->hasMany(AlternativeUniversity::class);
+    }
 }
