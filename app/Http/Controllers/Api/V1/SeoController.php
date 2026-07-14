@@ -74,11 +74,6 @@ class SeoController extends Controller
             university()->id
         )->first();
         
-        dd(
-    Course::count(),
-    Blog::count(),
-    Specialization::count()
-);
 
         if (!$setting) {
             abort(404);
@@ -133,7 +128,7 @@ class SeoController extends Controller
         // Specializations
         if ($setting->specializations_enabled) {
 
-            Specialization::where('is_active', true)
+            Specialization::where('status', true)
                 ->whereHas('course', function ($query) {
                     $query->where('university_id', university()->id);
                 })
