@@ -73,7 +73,12 @@ class SeoController extends Controller
             'university_id',
             university()->id
         )->first();
-        dd($setting);
+        
+        dd(
+    Course::count(),
+    Blog::count(),
+    Specialization::count()
+);
 
         if (!$setting) {
             abort(404);
