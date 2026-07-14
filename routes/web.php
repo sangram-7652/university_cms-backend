@@ -9,8 +9,11 @@ Route::get('/', function () {
         'message' => 'API Working',
     ]);
 });
-Route::get('/robots.txt', [SeoController::class, 'robots'])
-    ->name('robots');
 
-Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])
-    ->name('sitemap');
+Route::middleware('university')->group(function () {
+    Route::get('/robots.txt', [SeoController::class, 'robots'])
+        ->name('robots');
+
+    Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])
+        ->name('sitemap');
+});

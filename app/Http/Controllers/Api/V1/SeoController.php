@@ -16,6 +16,7 @@ class SeoController extends Controller
      */
     public function robots()
     {
+         dd('robots controller reached');
         $setting = RobotsSetting::where(
             'university_id',
             university()->id
