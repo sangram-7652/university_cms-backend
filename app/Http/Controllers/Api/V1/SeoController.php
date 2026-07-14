@@ -68,11 +68,12 @@ class SeoController extends Controller
      */
     public function sitemap()
     {
-        dd('Reached sitemap');
+        
         $setting = SitemapSetting::where(
             'university_id',
             university()->id
         )->first();
+        dd($setting);
 
         if (!$setting) {
             abort(404);
