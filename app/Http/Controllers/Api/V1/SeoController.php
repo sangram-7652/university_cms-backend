@@ -32,14 +32,17 @@ class SeoController extends Controller
         $content[] = 'User-agent: ' . ($setting->default_user_agent ?: '*');
         $content[] = '';
 
-        foreach ($setting->allow_paths ?? [] as $path) {
-            $content[] = 'Allow: ' . $path;
-        }
+        foreach ($setting->allow_paths ?? [] as $item) {
+    if (!empty($item['path'])) {
+        $content[] = 'Allow: ' . $item['path'];
+    }
+}
 
-        foreach ($setting->disallow_paths ?? [] as $path) {
-            $content[] = 'Disallow: ' . $path;
-        }
-
+foreach ($setting->disallow_paths ?? [] as $item) {
+    if (!empty($item['path'])) {
+        $content[] = 'Disallow: ' . $item['path'];
+    }
+}
         if ($setting->include_sitemap) {
             $content[] = '';
             $content[] = 'Sitemap: ' . $baseUrl . '/sitemap.xml';

@@ -25,7 +25,7 @@ class HallTicketResource extends JsonResource
             'content' => $this->content,
 
             'seo' => new SeoMetaResource(
-                $this->whenLoaded('seoMeta')
+                $this->whenLoaded('seo')
             ),
 
             'created_at' => $this->created_at,

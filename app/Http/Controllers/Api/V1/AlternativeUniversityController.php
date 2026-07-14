@@ -12,7 +12,7 @@ class AlternativeUniversityController extends Controller
     {
         $alternativeUniversity = AlternativeUniversity::with([
             'items',
-            'seoMeta',
+            'seo',
         ])
             ->where('university_id', university()->id)
             ->first();

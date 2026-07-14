@@ -27,7 +27,7 @@ class AlternativeUniversityResource extends JsonResource
             'content' => $this->content,
 
             'seo' => new SeoMetaResource(
-                $this->whenLoaded('seoMeta')
+                $this->whenLoaded('seo')
             ),
         ];
     }

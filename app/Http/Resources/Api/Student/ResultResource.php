@@ -19,7 +19,7 @@ class ResultResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'content' => $this->content,
-            'seo' => new SeoMetaResource($this->whenLoaded('seoMeta')),
+            'seo' => new SeoMetaResource($this->whenLoaded('seo')),
         ];
     }
 }

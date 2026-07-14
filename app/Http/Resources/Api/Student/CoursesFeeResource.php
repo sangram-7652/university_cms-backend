@@ -29,7 +29,7 @@ class CoursesFeeResource extends JsonResource
             ),
 
             'seo' => new SeoMetaResource(
-                $this->whenLoaded('seoMeta')
+                $this->whenLoaded('seo')
             ),
 
             'created_at' => $this->created_at,

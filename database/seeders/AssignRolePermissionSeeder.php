@@ -150,11 +150,11 @@ class AssignRolePermissionSeeder extends Seeder
             'create_admission',
             'edit_admission',
             'delete_admission',
-            // Courses Fees
-            'view_courses_fees',
-            'create_courses_fees',
-            'update_courses_fees',
-            'delete_courses_fees',
+            
+            'view_courses_fee',
+            'create_courses_fee',
+            'update_courses_fee',
+            'delete_courses_fee',
 
             'view_hall_ticket',
             'create_hall_ticket',
