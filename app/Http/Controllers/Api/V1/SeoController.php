@@ -16,7 +16,7 @@ class SeoController extends Controller
      */
     public function robots()
     {
-        
+
         $setting = RobotsSetting::where(
             'university_id',
             university()->id
@@ -34,16 +34,16 @@ class SeoController extends Controller
         $content[] = '';
 
         foreach ($setting->allow_paths ?? [] as $item) {
-    if (!empty($item['path'])) {
-        $content[] = 'Allow: ' . $item['path'];
-    }
-}
+            if (!empty($item['path'])) {
+                $content[] = 'Allow: ' . $item['path'];
+            }
+        }
 
-foreach ($setting->disallow_paths ?? [] as $item) {
-    if (!empty($item['path'])) {
-        $content[] = 'Disallow: ' . $item['path'];
-    }
-}
+        foreach ($setting->disallow_paths ?? [] as $item) {
+            if (!empty($item['path'])) {
+                $content[] = 'Disallow: ' . $item['path'];
+            }
+        }
         if ($setting->include_sitemap) {
             $content[] = '';
             $content[] = 'Sitemap: ' . $baseUrl . '/sitemap.xml';
@@ -68,6 +68,7 @@ foreach ($setting->disallow_paths ?? [] as $item) {
      */
     public function sitemap()
     {
+        dd('Reached sitemap');
         $setting = SitemapSetting::where(
             'university_id',
             university()->id
