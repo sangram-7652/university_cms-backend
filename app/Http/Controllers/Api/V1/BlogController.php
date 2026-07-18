@@ -37,7 +37,7 @@ class BlogController extends Controller
 
             )
 
-            ->paginate(10);
+            ->paginate(6);
 
 
 
