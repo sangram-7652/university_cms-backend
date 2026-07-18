@@ -68,12 +68,12 @@ class SeoController extends Controller
      */
     public function sitemap()
     {
-        
+
         $setting = SitemapSetting::where(
             'university_id',
             university()->id
         )->first();
-        
+
 
         if (!$setting) {
             abort(404);
@@ -118,7 +118,7 @@ class SeoController extends Controller
                 ->each(function ($blog) use (&$xml, $baseUrl, $setting) {
 
                     $xml[] = '<url>';
-                    $xml[] = '<loc>' . $baseUrl . '/blogs/' . $blog->slug . '</loc>';
+                    $xml[] = '<loc>' . $baseUrl . '/blog/' . $blog->slug . '</loc>';
                     $xml[] = '<changefreq>' . $setting->change_frequency . '</changefreq>';
                     $xml[] = '<priority>' . $setting->priority . '</priority>';
                     $xml[] = '</url>';
@@ -136,7 +136,7 @@ class SeoController extends Controller
                 ->each(function ($specialization) use (&$xml, $baseUrl, $setting) {
 
                     $xml[] = '<url>';
-                    $xml[] = '<loc>' . $baseUrl . '/specializations/' . $specialization->slug . '</loc>';
+                    $xml[] = '<loc>' . $baseUrl . '/specialization/' . $specialization->slug . '</loc>';
                     $xml[] = '<changefreq>' . $setting->change_frequency . '</changefreq>';
                     $xml[] = '<priority>' . $setting->priority . '</priority>';
                     $xml[] = '</url>';
