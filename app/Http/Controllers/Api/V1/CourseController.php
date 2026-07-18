@@ -58,7 +58,7 @@ class CourseController extends Controller
 
             ->latest()
 
-            ->paginate(10);
+            ->get();
 
 
 
