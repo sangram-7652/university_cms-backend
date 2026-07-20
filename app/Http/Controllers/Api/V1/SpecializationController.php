@@ -43,6 +43,21 @@ class SpecializationController extends Controller
         $specialization = Specialization::with([
             'seo',
             'course.university',
+            'course.specializations' => function ($query) {
+                $query->where('status', true)
+                    ->orderBy('sort_order')
+                    ->select([
+                        'id',
+                        'course_id',
+                        'name',
+                        'slug',
+                        'short_description',
+                        'duration',
+                        'duration_type',
+                        'course_level',
+                        'sort_order',
+                    ]);
+            },
             'feeStructures.items',
             'curricula.semesters.subjects',
             'faqs',

@@ -59,6 +59,11 @@ class SpecializationResource extends JsonResource
                     'name' => $this->course?->university?->name,
                     'slug' => $this->course?->university?->slug,
                 ],
+                'specializations' => SpecializationSummaryResource::collection(
+                    $this->course?->specializations
+                        ?->reject(fn ($sibling) => $sibling->id === $this->id)
+                        ->values() ?? []
+                ),
             ],
 
             'fee_structures' => $this->feeStructures->map(function ($fee) {
