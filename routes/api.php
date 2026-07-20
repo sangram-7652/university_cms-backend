@@ -124,6 +124,8 @@ Route::prefix('v1')->group(function () {
 
         Route::get('/blogs', [BlogController::class, 'index']);
 
+        Route::get('/blogs/trending', [BlogController::class, 'trending']);
+
         Route::get('/blogs/{slug}', [BlogController::class, 'show']);
 
         Route::get(

@@ -71,6 +71,23 @@ class BlogController extends Controller
 
 
 
+    public function trending()
+    {
+        $blogs = Blog::query()
+            ->where('university_id', university()->id)
+            ->where('status', true)
+            ->orderByDesc('views')
+            ->latest('published_at')
+            ->limit(3)
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Trending blogs fetched successfully',
+            'data' => BlogResource::collection($blogs),
+        ]);
+    }
+
     public function show($slug)
     {
         $blog = Blog::with('seo')
