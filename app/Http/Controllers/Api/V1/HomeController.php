@@ -42,6 +42,13 @@ class HomeController extends Controller
             $university->seo?->schema_override
         );
 
+        $seo = null;
+
+        if ($university->seo) {
+            $seo = (new SeoMetaResource($university->seo))->resolve(request());
+            $seo['schema'] = $schema;
+        }
+
         return response()->json([
             'success' => true,
 
@@ -98,9 +105,7 @@ class HomeController extends Controller
                     $university->news
                 ),
 
-                'seo' => $university->seo
-                    ? (new SeoMetaResource($university->seo))->additional(['schema' => $schema])
-                    : null,
+                'seo' => $seo,
             ]
         ]);
     }

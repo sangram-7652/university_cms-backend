@@ -99,13 +99,20 @@ class CourseController extends Controller
             $course->seo?->schema_override
         );
 
+        $seo = null;
+
+        if ($course->seo) {
+            $seo = (new SeoMetaResource($course->seo))->resolve(request());
+            $seo['schema'] = $schema;
+        }
+
         return response()->json([
 
             'success' => true,
 
             'data' => [
 
-                'seo' => (new SeoMetaResource($course->seo))->additional(['schema' => $schema]),
+                'seo' => $seo,
 
                 'course' => new CourseResource($course),
 

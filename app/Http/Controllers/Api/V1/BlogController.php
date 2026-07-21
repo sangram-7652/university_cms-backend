@@ -107,12 +107,19 @@ class BlogController extends Controller
             $blog->seo?->schema_override
         );
 
+        $seo = null;
+
+        if ($blog->seo) {
+            $seo = (new SeoMetaResource($blog->seo))->resolve(request());
+            $seo['schema'] = $schema;
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Blog fetched successfully',
             'data' => [
 
-                'seo' => (new SeoMetaResource($blog->seo))->additional(['schema' => $schema]),
+                'seo' => $seo,
 
                 'blog' => new BlogDetailResource($blog),
 

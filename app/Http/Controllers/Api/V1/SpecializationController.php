@@ -76,12 +76,19 @@ class SpecializationController extends Controller
             $specialization->seo?->schema_override
         );
 
+        $seo = null;
+
+        if ($specialization->seo) {
+            $seo = (new SeoMetaResource($specialization->seo))->resolve(request());
+            $seo['schema'] = $schema;
+        }
+
         return response()->json([
 
             'success' => true,
             'data' => [
 
-                'seo' => (new SeoMetaResource($specialization->seo))->additional(['schema' => $schema]),
+                'seo' => $seo,
 
                 'course' => [
                     'id' => $specialization->course->id,
