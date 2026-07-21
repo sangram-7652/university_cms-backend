@@ -198,15 +198,79 @@ class SchemaService
      * Resolve the canonical base URL for a university.
      *
      * Priority:
-     *   1. seo_settings.canonical_domain  (admin-configured production URL)
-     *   2. config('app.url')              (fallback for local / unconfigured envs)
+     *   1. University SEO Meta canonical_url  (scheme + host only, already
+     *      configured in Filament and used by generateMetadata)
+     *   2. seo_settings.canonical_domain      (admin-configured production URL)
+     *   3. Tenant URL derived from the current request host + subdomain
+     *      (e.g. request host api.example.com + subdomain "dusol" -> dusol.example.com)
+     *   4. config('app.url')                  (fallback for local / console / unconfigured envs)
      */
     private function baseUrl(University $university): string
     {
-        return rtrim(
-            $university->seoSetting?->canonical_domain ?? config('app.url'),
-            '/'
-        );
+        if ($origin = $this->originFromCanonicalUrl($university)) {
+            return $origin;
+        }
+
+        if ($university->seoSetting?->canonical_domain) {
+            return rtrim($university->seoSetting->canonical_domain, '/');
+        }
+
+        if ($tenantUrl = $this->tenantUrlFromRequestHost($university)) {
+            return $tenantUrl;
+        }
+
+        return rtrim(config('app.url'), '/');
+    }
+
+    /**
+     * Extract just the scheme + host from the university's homepage
+     * canonical_url. Returns null when canonical_url is missing or
+     * doesn't parse into a valid absolute URL.
+     */
+    private function originFromCanonicalUrl(University $university): ?string
+    {
+        $canonicalUrl = $university->seo?->canonical_url;
+
+        if (! $canonicalUrl) {
+            return null;
+        }
+
+        $scheme = parse_url($canonicalUrl, PHP_URL_SCHEME);
+        $host   = parse_url($canonicalUrl, PHP_URL_HOST);
+
+        if (! $scheme || ! $host) {
+            return null;
+        }
+
+        return "{$scheme}://{$host}";
+    }
+
+    /**
+     * Build the tenant's public URL by swapping the current request host's
+     * first label for the university's own subdomain. Returns null when no
+     * request context or subdomain is available (e.g. console commands).
+     */
+    private function tenantUrlFromRequestHost(University $university): ?string
+    {
+        if (! $university->subdomain) {
+            return null;
+        }
+
+        $host = request()?->getHost();
+
+        if (! $host || in_array($host, ['localhost', '127.0.0.1'])) {
+            return null;
+        }
+
+        $labels = explode('.', $host);
+
+        if (count($labels) < 2) {
+            return null;
+        }
+
+        array_shift($labels);
+
+        return 'https://' . $university->subdomain . '.' . implode('.', $labels);
     }
 
     /**
