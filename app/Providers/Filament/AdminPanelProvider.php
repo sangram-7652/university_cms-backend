@@ -28,6 +28,8 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
 
+            ->viteTheme('resources/css/filament/admin/theme.css')
+
             ->brandName('DUSOL-CMS')
 
             ->sidebarCollapsibleOnDesktop()

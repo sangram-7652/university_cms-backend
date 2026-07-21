@@ -1,0 +1,15 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+@source '../../../../app/Filament/**/*';
+@source '../../../../resources/views/filament/**/*';
+
+/*
+ * The RichEditor toolbar (Blog/Admission/AlternativeUniversity/StudyMaterial/
+ * HallTicket/AssignmentStatus/News forms) only has `position: relative` by
+ * default, so it scrolls away with the editor content. `top-16` matches the
+ * panel topbar's height (.fi-topbar min-h-16) and `z-20` keeps it below the
+ * topbar's `z-30` while still above the surrounding form.
+ */
+.fi-fo-rich-editor-toolbar {
+    @apply sticky top-16 z-20 bg-white dark:bg-gray-900;
+}
