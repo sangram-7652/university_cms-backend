@@ -133,7 +133,7 @@ class SchemaService
             'name'                         => $specialization->name,
             'description'                  => $specialization->short_description,
             'url'                          => $baseUrl
-                                                ? $baseUrl . '/specializations/' . $specialization->slug
+                                                ? $baseUrl . '/specialization/' . $specialization->slug
                                                 : null,
             'provider'                     => $university
                                                 ? [
