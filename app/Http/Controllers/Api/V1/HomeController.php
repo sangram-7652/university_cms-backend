@@ -12,12 +12,14 @@ use App\Http\Resources\Api\Home\FooterCtaResource;
 use App\Http\Resources\Api\Home\NewsResource;
 use App\Http\Resources\Api\Seo\SeoMetaResource;
 use App\Http\Resources\Api\Home\ProgramResource;
+use App\Models\SchemaSetting;
 use App\Models\University;
+use App\Services\Schema\SchemaService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(SchemaService $schemaService)
     {
         $university = university();
 
@@ -31,7 +33,14 @@ class HomeController extends Controller
             'footerCta',
             'news',
             'seo',
+            'seoSetting',
         ]);
+
+        $schema = $schemaService->generate(
+            SchemaSetting::PAGE_UNIVERSITY,
+            $university,
+            $university->seo?->schema_override
+        );
 
         return response()->json([
             'success' => true,
@@ -90,7 +99,7 @@ class HomeController extends Controller
                 ),
 
                 'seo' => $university->seo
-                    ? new SeoMetaResource($university->seo)
+                    ? (new SeoMetaResource($university->seo))->additional(['schema' => $schema])
                     : null,
             ]
         ]);

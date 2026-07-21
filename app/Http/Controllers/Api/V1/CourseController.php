@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Course\CourseResource;
 use App\Http\Resources\Api\Seo\SeoMetaResource;
 use App\Models\Course;
+use App\Models\SchemaSetting;
+use App\Services\Schema\SchemaService;
 use Illuminate\Http\Request;
 use App\Http\Resources\Api\Specialization\SpecializationResource;
 
@@ -76,12 +78,12 @@ class CourseController extends Controller
         ]);
     }
 
-    public function show($slug)
+    public function show($slug, SchemaService $schemaService)
     {
 
         $course = Course::with([
             'seo',
-            'university',
+            'university.seoSetting',
             'specializations',
             'feeStructures.items',
             'curricula.semesters.subjects',
@@ -91,6 +93,11 @@ class CourseController extends Controller
             ->where('university_id', university()->id)
             ->firstOrFail();
 
+        $schema = $schemaService->generate(
+            SchemaSetting::PAGE_COURSE,
+            $course,
+            $course->seo?->schema_override
+        );
 
         return response()->json([
 
@@ -98,7 +105,7 @@ class CourseController extends Controller
 
             'data' => [
 
-                'seo' => new SeoMetaResource($course->seo),
+                'seo' => (new SeoMetaResource($course->seo))->additional(['schema' => $schema]),
 
                 'course' => new CourseResource($course),
 

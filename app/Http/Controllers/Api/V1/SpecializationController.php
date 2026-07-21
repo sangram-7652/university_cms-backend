@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\Specialization\SpecializationResource;
 use App\Http\Resources\Api\Seo\SeoMetaResource;
 use App\Models\Course;
+use App\Models\SchemaSetting;
 use App\Models\Specialization;
+use App\Services\Schema\SchemaService;
 
 class SpecializationController extends Controller
 {
@@ -36,13 +38,13 @@ class SpecializationController extends Controller
     }
 
 
-    public function show($slug)
+    public function show($slug, SchemaService $schemaService)
     {
         $university = university();
 
         $specialization = Specialization::with([
             'seo',
-            'course.university',
+            'course.university.seoSetting',
             'course.specializations' => function ($query) {
                 $query->where('status', true)
                     ->orderBy('sort_order')
@@ -68,12 +70,18 @@ class SpecializationController extends Controller
             })
             ->firstOrFail();
 
+        $schema = $schemaService->generate(
+            SchemaSetting::PAGE_SPECIALIZATION,
+            $specialization,
+            $specialization->seo?->schema_override
+        );
+
         return response()->json([
 
             'success' => true,
             'data' => [
 
-                'seo' => new SeoMetaResource($specialization->seo),
+                'seo' => (new SeoMetaResource($specialization->seo))->additional(['schema' => $schema]),
 
                 'course' => [
                     'id' => $specialization->course->id,

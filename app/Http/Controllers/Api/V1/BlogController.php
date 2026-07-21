@@ -7,6 +7,9 @@ use App\Http\Resources\Api\Blog\BlogDetailResource;
 use App\Http\Resources\Api\Seo\SeoMetaResource;
 use App\Http\Resources\Api\Blog\BlogResource;
 use App\Models\Blog;
+use App\Models\SchemaSetting;
+use App\Services\Schema\SchemaService;
+
 
 class BlogController extends Controller
 {
@@ -88,9 +91,9 @@ class BlogController extends Controller
         ]);
     }
 
-    public function show($slug)
+    public function show($slug, SchemaService $schemaService)
     {
-        $blog = Blog::with('seo')
+        $blog = Blog::with(['seo', 'university'])
             ->where('slug', $slug)
             ->where('university_id', university()->id)
             ->where('status', true)
@@ -98,12 +101,18 @@ class BlogController extends Controller
 
         $blog->increment('views');
 
+        $schema = $schemaService->generate(
+            SchemaSetting::PAGE_BLOG,
+            $blog,
+            $blog->seo?->schema_override
+        );
+
         return response()->json([
             'success' => true,
             'message' => 'Blog fetched successfully',
             'data' => [
 
-                'seo' => new SeoMetaResource($blog->seo),
+                'seo' => (new SeoMetaResource($blog->seo))->additional(['schema' => $schema]),
 
                 'blog' => new BlogDetailResource($blog),
 

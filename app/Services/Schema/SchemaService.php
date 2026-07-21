@@ -14,10 +14,12 @@ class SchemaService
     /**
      * Generate schema based on page type.
      * Returns null if schema is disabled for this university + page type.
+     * If a non-empty $override is provided, it takes priority over generation.
      */
     public function generate(
         string $pageType,
         mixed $model,
+        ?array $override = null,
     ): ?array {
 
         $setting = SchemaSetting::query()
@@ -28,6 +30,10 @@ class SchemaService
 
         if (! $setting) {
             return null;
+        }
+
+        if (is_array($override) && ! empty($override)) {
+            return $override;
         }
 
         return match ($pageType) {
