@@ -8,6 +8,8 @@ use App\Http\Resources\Api\Home\AboutResource;
 use App\Http\Resources\Api\Home\EligibilityResource;
 use App\Http\Resources\Api\Home\WhyChooseUsResource;
 use App\Http\Resources\Api\Home\FaqResource;
+use App\Http\Resources\Api\Home\KeyHighlightResource;
+use App\Http\Resources\Api\Home\AdmissionProcedureResource;
 use App\Http\Resources\Api\Home\FooterCtaResource;
 use App\Http\Resources\Api\Home\NewsResource;
 use App\Http\Resources\Api\Seo\SeoMetaResource;
@@ -30,6 +32,8 @@ class HomeController extends Controller
             'eligibilities',
             'whyChooseUs',
             'faqs',
+            'keyHighlights',
+            'admissionProcedure',
             'footerCta',
             'news',
             'seo',
@@ -96,6 +100,14 @@ class HomeController extends Controller
                 'faqs' => FaqResource::collection(
                     $university->faqs
                 ),
+
+                'keyHighlights' => KeyHighlightResource::collection(
+                    $university->keyHighlights
+                ),
+
+                'admissionProcedure' => $university->admissionProcedure
+                    ? new AdmissionProcedureResource($university->admissionProcedure)
+                    : null,
 
                 'footer_cta' => $university->footerCta
                     ? new FooterCtaResource($university->footerCta)

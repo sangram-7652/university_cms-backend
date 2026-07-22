@@ -116,6 +116,16 @@ class AssignRolePermissionSeeder extends Seeder
             'edit_homepage_why_choose_us',
             'delete_homepage_why_choose_us',
 
+            'view_homepage_key_highlight',
+            'create_homepage_key_highlight',
+            'edit_homepage_key_highlight',
+            'delete_homepage_key_highlight',
+
+            'view_homepage_admission_procedure',
+            'create_homepage_admission_procedure',
+            'edit_homepage_admission_procedure',
+            'delete_homepage_admission_procedure',
+
             'view_homepage_program',
             'create_homepage_program',
             'edit_homepage_program',
@@ -130,10 +140,8 @@ class AssignRolePermissionSeeder extends Seeder
             'view_seo_setting',
             'edit_seo_setting',
 
-            'view_schema_template',
-            'create_schema_template',
-            'edit_schema_template',
-            'delete_schema_template',
+            'view_schema_setting',
+            'edit_schema_setting',
 
             'view_sitemap_setting',
             'create_sitemap_setting',
@@ -153,7 +161,7 @@ class AssignRolePermissionSeeder extends Seeder
             
             'view_courses_fee',
             'create_courses_fee',
-            'update_courses_fee',
+            'edit_courses_fee',
             'delete_courses_fee',
 
             'view_hall_ticket',

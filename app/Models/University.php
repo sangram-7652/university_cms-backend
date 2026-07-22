@@ -9,6 +9,8 @@ use App\Models\HomepageAbout;
 use App\Models\HomepageEligibility;
 use App\Models\HomepageWhyChooseUs;
 use App\Models\HomepageFaq;
+use App\Models\HomepageKeyHighlight;
+use App\Models\HomepageAdmissionProcedure;
 use App\Models\FooterCta;
 use App\Models\Course;
 use App\Models\FeeStructure;
@@ -79,6 +81,19 @@ class University extends Model
     public function faqs()
     {
         return $this->hasMany(HomepageFaq::class);
+    }
+
+    public function keyHighlights()
+    {
+        return $this->hasMany(HomepageKeyHighlight::class)
+            ->where('is_active', true)
+            ->orderBy('sort_order');
+    }
+
+    public function admissionProcedure()
+    {
+        return $this->hasOne(HomepageAdmissionProcedure::class)
+            ->where('is_active', true);
     }
 
     public function footerCta()
