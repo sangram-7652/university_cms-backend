@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\HomepageKeyHighlights\Schemas;
 
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -25,9 +25,21 @@ class HomepageKeyHighlightForm
                     ->required()
                     ->maxLength(255),
 
-                Textarea::make('description')
-                    ->rows(4)
-                    ->columnSpanFull(),
+                RichEditor::make('description')
+                    ->columnSpanFull()
+                    ->toolbarButtons([
+                        'bold',
+                        'italic',
+                        'underline',
+                        'bulletList',
+                        'orderedList',
+                        'h2',
+                        'h3',
+                        'blockquote',
+                        'link',
+                        'undo',
+                        'redo',
+                    ]),
 
                 Select::make('icon')
                     ->options([

@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\HomepageAdmissionProcedures\Schemas;
 
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -26,9 +26,21 @@ class HomepageAdmissionProcedureForm
                     ->required()
                     ->maxLength(255),
 
-                Textarea::make('description')
-                    ->rows(3)
-                    ->columnSpanFull(),
+                RichEditor::make('description')
+                    ->columnSpanFull()
+                    ->toolbarButtons([
+                        'bold',
+                        'italic',
+                        'underline',
+                        'bulletList',
+                        'orderedList',
+                        'h2',
+                        'h3',
+                        'blockquote',
+                        'link',
+                        'undo',
+                        'redo',
+                    ]),
 
                 Repeater::make('procedure_steps')
                     ->schema([
@@ -36,8 +48,20 @@ class HomepageAdmissionProcedureForm
                             ->required()
                             ->maxLength(255),
 
-                        Textarea::make('description')
-                            ->rows(2),
+                        RichEditor::make('description')
+                            ->toolbarButtons([
+                                'bold',
+                                'italic',
+                                'underline',
+                                'bulletList',
+                                'orderedList',
+                                'h2',
+                                'h3',
+                                'blockquote',
+                                'link',
+                                'undo',
+                                'redo',
+                            ]),
 
                         Select::make('icon')
                             ->options([
