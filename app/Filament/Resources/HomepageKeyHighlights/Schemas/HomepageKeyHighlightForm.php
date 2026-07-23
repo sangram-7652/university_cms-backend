@@ -25,21 +25,8 @@ class HomepageKeyHighlightForm
                     ->required()
                     ->maxLength(255),
 
-                RichEditor::make('description')
-                    ->columnSpanFull()
-                    ->toolbarButtons([
-                        'bold',
-                        'italic',
-                        'underline',
-                        'bulletList',
-                        'orderedList',
-                        'h2',
-                        'h3',
-                        'blockquote',
-                        'link',
-                        'undo',
-                        'redo',
-                    ]),
+                RichEditor::make('description'),
+                  
 
                 Select::make('icon')
                     ->options([
